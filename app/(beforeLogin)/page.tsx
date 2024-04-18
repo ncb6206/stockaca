@@ -8,17 +8,17 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 export default function Home() {
   return (
-    <div className="w-full h-screen flex flex-col justify-start items-center">
+    <div className="flex h-dvh flex-col items-center justify-start">
       <Alert>
         <AlertTitle>안녕하세요 수강생 여러분 반갑습니다.</AlertTitle>
-        <AlertDescription>
-          항해99 취업 리부트 프로그램에 오신걸 환영합니다.
+        <AlertDescription className="text-2xl">
+          항해99 취업 리부트 프로그램에 오신걸 환영합니다. GOOD?
         </AlertDescription>
       </Alert>
 
