@@ -70,9 +70,6 @@
   * {
     @apply box-border border-border;
   }
-  html {
-    @apply text-base font-bold text-['#1d1d1f'];
-  }
   body {
     @apply bg-background text-foreground;
   }
