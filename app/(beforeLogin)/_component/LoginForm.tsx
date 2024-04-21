@@ -3,6 +3,7 @@
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 import { auth } from '@/app/firebase';
 import { Button } from '@/components/ui/button';
@@ -28,10 +29,14 @@ const LoginForm = () => {
         data.email,
         data.password,
       );
-      console.log(userCredential);
-      router.replace('/home');
+
+      if (userCredential.user) {
+        toast.success('로그인 완료');
+        router.replace('/home');
+      }
     } catch (error) {
-      console.log(error);
+      console.log((error as Error).message);
+      toast.error('로그인 실패');
     }
   };
 
@@ -39,35 +44,44 @@ const LoginForm = () => {
     <>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="max-w-sm space-y-8 overflow-x-auto p-2"
+        className="max-h-dvh w-full space-y-8 overflow-x-auto p-6 sm:p-20"
       >
-        <Input
-          {...register('email', { required: '이메일은 필수 입력 항목입니다.' })}
-          id="email"
-          placeholder="이메일 주소"
-          type="email"
-          name="email"
-          className="border-0 bg-[#f5f5f5]"
-        />
-        {errors.email && (
-          <p className="text-red-600">{errors.email?.message}</p>
-        )}
+        <p className="text-center text-2xl font-bold">로그인</p>
+        <div>
+          <Input
+            {...register('email', {
+              required: '이메일은 필수 입력 항목입니다.',
+            })}
+            id="email"
+            placeholder="이메일 주소"
+            type="email"
+            name="email"
+            className="border-0 bg-[#f5f5f5]"
+          />
+          {errors.email && (
+            <p className="mt-2 text-red-600">{errors.email?.message}</p>
+          )}
+        </div>
 
-        <Input
-          {...register('password', {
-            required: '비밀번호는 필수 입력 항목입니다.',
-          })}
-          id="password"
-          placeholder="비밀번호"
-          type="password"
-          name="password"
-          className="border-0 bg-[#f5f5f5]"
-        />
-        {errors.password && (
-          <p className="text-red-600">{errors.password?.message}</p>
-        )}
+        <div>
+          <Input
+            {...register('password', {
+              required: '비밀번호는 필수 입력 항목입니다.',
+            })}
+            id="password"
+            placeholder="비밀번호"
+            type="password"
+            name="password"
+            className="border-0 bg-[#f5f5f5]"
+          />
+          {errors.password && (
+            <p className="mt-2 text-red-600">{errors.password?.message}</p>
+          )}
+        </div>
 
-        <Button type="submit">로그인</Button>
+        <div className="flex justify-end">
+          <Button type="submit">로그인</Button>
+        </div>
       </form>
     </>
   );

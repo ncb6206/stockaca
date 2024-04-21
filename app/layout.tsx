@@ -1,7 +1,9 @@
 import '@/styles/globals.css';
 import type { Metadata } from 'next';
 import { Noto_Sans_KR as FontSans } from 'next/font/google';
+
 import { cn } from '@/lib/utils';
+import { Toaster } from 'react-hot-toast';
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -22,11 +24,12 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          'min-h-dvh bg-background font-sans antialiased',
+          'flex min-h-dvh w-full justify-center bg-background font-sans antialiased',
           fontSans.variable,
         )}
       >
         {children}
+        <Toaster position="bottom-center" />
       </body>
     </html>
   );

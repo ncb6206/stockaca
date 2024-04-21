@@ -1,13 +1,17 @@
 import { ReactNode } from 'react';
+import RedirectToHome from './_component/RedirectToHome';
 
 type Props = { children: ReactNode };
 
-const Layout = ({ children }: Props) => {
+const BeforeLoginLayout = ({ children }: Props) => {
   return (
-    <div className="flex h-dvh w-full flex-row justify-center bg-background">
-      {children}
-    </div>
+    <>
+      <RedirectToHome />
+      <div className="relative flex h-dvh w-full max-w-screen-sm flex-row justify-center bg-background">
+        {children}
+      </div>
+    </>
   );
 };
 
-export default Layout;
+export default BeforeLoginLayout;
