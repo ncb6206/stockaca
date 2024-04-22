@@ -1,5 +1,6 @@
 'use client';
 
+
 import { usePathname } from 'next/navigation';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { GoHome } from 'react-icons/go';
@@ -9,6 +10,7 @@ import { FaRegCircleUser } from 'react-icons/fa6';
 
 import NavigationItem from './NavigationItem';
 import onAuth from '@/app/_lib/onAuth';
+
 import { NavigationDataType } from '@/app/types/navigation';
 
 const navigationItems: NavigationDataType[] = [
