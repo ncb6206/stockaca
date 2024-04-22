@@ -9,7 +9,7 @@ const AfterLoginLayout = ({ children }: Props) => {
   return (
     <>
       <RedirectToLogin />
-      <div className="relative flex h-dvh w-full max-w-screen-sm flex-col justify-center bg-background ">
+      <div className="relative flex h-dvh w-full max-w-screen-sm flex-col items-center justify-center bg-background ">
         {children}
       </div>
       <NavigationBar />
