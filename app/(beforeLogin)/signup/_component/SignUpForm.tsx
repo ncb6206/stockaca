@@ -1,7 +1,8 @@
 'use client';
 
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { Loader2 } from 'lucide-react';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
@@ -10,9 +11,9 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { handleUpload } from '@/app/(beforeLogin)/_lib/handleUpload';
+import { handleUpload } from '@/app/(BeforeLogin)/_lib/handleUpload';
+import { dayjsNow } from '@/app/(BeforeLogin)/_lib/setDate';
 import { auth, db } from '@/app/firebase';
-import { dayjsNow } from '@/app/(beforeLogin)/_lib/setDate';
 
 interface SignUpInputs {
   name: string;
@@ -32,8 +33,9 @@ const SignUpForm = () => {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<SignUpInputs>({ mode: 'onSubmit' });
+  const password = watch('password');
 
   const onSubmit: SubmitHandler<SignUpInputs> = async data => {
     try {
@@ -42,30 +44,33 @@ const SignUpForm = () => {
         data.email,
         data.password,
       );
+      const user = userCredential.user;
       const imageUrl = await handleUpload(data.profileImage[0]);
-      const collectionUser = doc(db, 'User', auth.currentUser?.uid as string);
+      await updateProfile(user, {
+        displayName: data.nickname,
+        photoURL: imageUrl,
+      });
+      const collectionUser = doc(db, 'User', user.uid);
       await setDoc(collectionUser, {
         name: data.name,
-        email: data.email,
-        nickname: data.nickname,
+        email: user.email,
+        nickname: user.displayName,
         password: data.password,
-        profileImage: imageUrl,
+        profileImage: user.photoURL,
         bio: data.bio,
         createdAt: dayjsNow(),
         updatedAt: dayjsNow(),
       });
 
       if (userCredential.user) {
-        toast.success('회원가입 완료');
         router.replace('/home');
+        toast.success('회원가입 완료');
       }
     } catch (error) {
       console.log((error as Error).message);
       toast.error('회원가입 실패');
     }
   };
-
-  const password = watch('password');
 
   return (
     <>
@@ -193,7 +198,13 @@ const SignUpForm = () => {
         </div>
 
         <div className="flex justify-end">
-          <Button type="submit">회원가입</Button>
+          {!isSubmitting && <Button type="submit">회원가입</Button>}
+          {isSubmitting && (
+            <Button disabled>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              회원가입 중...
+            </Button>
+          )}
         </div>
       </form>
     </>
