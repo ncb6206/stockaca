@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { auth } from '@/app/firebase';
 import { User } from 'firebase/auth';
+
+import { auth } from '@/app/firebase';
 
 export default function onAuth() {
   const [user, setUser] = useState<User | null>(null);
@@ -14,7 +15,7 @@ export default function onAuth() {
       setLoading(false);
     });
 
-    return unsubscribe;
+    return () => unsubscribe();
   }, []);
 
   return { user, loading };

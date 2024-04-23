@@ -1,5 +1,6 @@
 'use client';
 
+import { Loader2 } from 'lucide-react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
@@ -19,7 +20,7 @@ const LoginForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<LoginInputs>({ mode: 'onSubmit' });
 
   const onSubmit: SubmitHandler<LoginInputs> = async data => {
@@ -31,8 +32,8 @@ const LoginForm = () => {
       );
 
       if (userCredential.user) {
-        toast.success('로그인 완료');
         router.replace('/home');
+        toast.success('로그인 완료');
       }
     } catch (error) {
       console.log((error as Error).message);
@@ -80,7 +81,13 @@ const LoginForm = () => {
         </div>
 
         <div className="flex justify-end">
-          <Button type="submit">로그인</Button>
+          {!isSubmitting && <Button type="submit">로그인</Button>}
+          {isSubmitting && (
+            <Button disabled>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              로그인 중...
+            </Button>
+          )}
         </div>
       </form>
     </>
