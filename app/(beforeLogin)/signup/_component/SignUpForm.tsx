@@ -11,8 +11,8 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { handleUpload } from '@/app/(BeforeLogin)/_lib/handleUpload';
-import { dayjsNow } from '@/app/(BeforeLogin)/_lib/setDate';
+import { handleUpload } from '@/app/(beforeLogin)/_lib/handleUpload';
+import { dayjsNow } from '@/app/(beforeLogin)/_lib/setDate';
 import { auth, db } from '@/app/firebase';
 
 interface SignUpInputs {
