@@ -17,6 +17,7 @@ import { handleUpload } from '@/app/(beforeLogin)/_lib/handleUpload';
 import { dayjsNow } from '@/app/(beforeLogin)/_lib/setDate';
 import { auth, db } from '@/app/firebase';
 import { PreviewImage } from '@/app/(beforeLogin)/signup/_lib/PreviewImage';
+import { hashUid } from '@/app/_lib/hashUid';
 
 interface SignUpInputs {
   name: string;
@@ -52,14 +53,14 @@ const SignUpForm = () => {
       const user = userCredential.user;
       const imageUrl = await handleUpload(data.profileImage[0]);
       await updateProfile(user, {
-        displayName: data.nickname,
+        displayName: hashUid({ uid: user.uid }),
         photoURL: imageUrl,
       });
       const collectionUser = doc(db, 'User', user.uid);
       await setDoc(collectionUser, {
         name: data.name,
         email: user.email,
-        nickname: user.displayName,
+        nickname: data.nickname,
         profileImage: user.photoURL,
         bio: data.bio,
         createdAt: dayjsNow(),

@@ -28,7 +28,7 @@ const NavigationBar = () => {
         <NavigationItem
           key={index}
           icon={Icon}
-          href={href === '/users' ? `/users/${user?.email}` : href}
+          href={href === '/users' ? `/users/${user?.displayName}` : href}
           pathname={pathname}
         />
       ))}
