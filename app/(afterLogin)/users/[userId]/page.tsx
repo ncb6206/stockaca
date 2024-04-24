@@ -1,6 +1,6 @@
 import LogoutButton from '@/app/(afterLogin)/users/[userId]/_component/LogoutButton';
 import { getUser } from '@/app/(afterLogin)/users/[userId]/_lib/getUser';
-import Image from 'next/image';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 interface Props {
   params: { userId: string };
@@ -16,18 +16,25 @@ const UserPage = async ({ params }: Props) => {
   }
 
   return (
-    <div className="flex flex-col">
-      <p>{userData?.name}</p>
-      <p>{userData?.nickname}</p>
-      <p>{userData?.bio}</p>
-      <p>{userData?.email}님의 페이지입니다.</p>
-      <Image
-        src={userData?.profileImage}
-        alt="프로필 사진"
-        width={300}
-        height={300}
-      />
-      <LogoutButton />
+    <div className="flex h-full w-full flex-col">
+      <div className="flex-grow p-4">
+        <div className="mb-4 flex flex-col justify-center gap-2">
+          <div className="flex w-full flex-row justify-between">
+            <div className="flex flex-col">
+              <p className="text-xl font-bold">{userData?.nickname}</p>
+              <p>{userData?.email}</p>
+            </div>
+            <Avatar className="h-14 w-14">
+              <AvatarImage src={userData?.profileImage} />
+              <AvatarFallback>
+                {userData?.email.slice(0, 2).toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
+          </div>
+          <p>{userData?.bio}</p>
+        </div>
+        <LogoutButton />
+      </div>
     </div>
   );
 };
