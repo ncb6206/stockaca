@@ -3,17 +3,17 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-import onAuth from '@/app/_lib/onAuth';
+import useOnAuth from '@/app/_lib/useOnAuth';
 
 export default function RedirectToLogin() {
-  const { user, loading } = onAuth();
+  const { user, loading } = useOnAuth();
   const router = useRouter();
 
   useEffect(() => {
     if (!loading && !user) {
       router.replace('/login');
     }
-  }, [user, loading]);
+  }, [user, loading, router]);
 
   return null;
 }

@@ -7,7 +7,7 @@ import { HiOutlinePencilAlt } from 'react-icons/hi';
 import { FaRegComments, FaRegCircleUser } from 'react-icons/fa6';
 
 import NavigationItem from '@/app/(afterLogin)/_component/NavigationItem';
-import onAuth from '@/app/_lib/onAuth';
+import useOnAuth from '@/app/_lib/useOnAuth';
 import { NavigationDataType } from '@/app/types/navigation';
 
 const navigationItems: NavigationDataType[] = [
@@ -19,7 +19,7 @@ const navigationItems: NavigationDataType[] = [
 ];
 
 const NavigationBar = () => {
-  const { user } = onAuth();
+  const { user } = useOnAuth();
   const pathname = usePathname();
 
   return (
