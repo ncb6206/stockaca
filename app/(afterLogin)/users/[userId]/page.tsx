@@ -1,3 +1,5 @@
+import { FaCircleUser } from 'react-icons/fa6';
+
 import LogoutButton from '@/app/(afterLogin)/users/[userId]/_component/LogoutButton';
 import { getUser } from '@/app/(afterLogin)/users/[userId]/_lib/getUser';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -8,7 +10,7 @@ interface Props {
 
 const UserPage = async ({ params }: Props) => {
   const userId = decodeURIComponent(params.userId);
-  const userData = await getUser({ email: userId });
+  const userData = await getUser({ uid: userId });
   console.log(userData);
 
   if (!userData) {
@@ -25,9 +27,9 @@ const UserPage = async ({ params }: Props) => {
               <p>{userData?.email}</p>
             </div>
             <Avatar className="h-14 w-14">
-              <AvatarImage src={userData?.profileImage} />
+              <AvatarImage src={userData?.profileImage} alt="프로필 사진" />
               <AvatarFallback>
-                {userData?.email.slice(0, 2).toUpperCase()}
+                <FaCircleUser className="h-full w-full" />
               </AvatarFallback>
             </Avatar>
           </div>
