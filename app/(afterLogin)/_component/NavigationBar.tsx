@@ -4,11 +4,10 @@ import { usePathname } from 'next/navigation';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { GoHome } from 'react-icons/go';
 import { HiOutlinePencilAlt } from 'react-icons/hi';
-import { FaRegComments } from 'react-icons/fa6';
-import { FaRegCircleUser } from 'react-icons/fa6';
+import { FaRegComments, FaRegCircleUser } from 'react-icons/fa6';
 
 import NavigationItem from '@/app/(afterLogin)/_component/NavigationItem';
-import onAuth from '@/app/_lib/onAuth';
+import useOnAuth from '@/app/_lib/useOnAuth';
 import { NavigationDataType } from '@/app/types/navigation';
 
 const navigationItems: NavigationDataType[] = [
@@ -20,11 +19,11 @@ const navigationItems: NavigationDataType[] = [
 ];
 
 const NavigationBar = () => {
-  const { user } = onAuth();
+  const { user } = useOnAuth();
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 z-10 m-auto grid h-16 w-full max-w-screen-sm grid-cols-5 grid-rows-1 items-center backdrop-filter">
+    <nav className="fixed bottom-0 z-10 m-auto grid h-16 w-full max-w-screen-sm grid-cols-5 grid-rows-1 items-center bg-white/85 backdrop-blur-2xl ">
       {navigationItems.map(({ icon: Icon, href }, index) => (
         <NavigationItem
           key={index}

@@ -10,8 +10,8 @@ const LoginPage = () => {
         <Link className="hover:cursor-pointer" href="/">
           <MdOutlineCancel size={28} />
         </Link>
-        <LoginForm />
       </div>
+      <LoginForm />
     </div>
   );
 };

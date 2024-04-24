@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Loader2 } from 'lucide-react';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
@@ -7,6 +8,7 @@ import { doc, setDoc } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 
+import { Skeleton } from '@/components/ui/skeleton';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -14,6 +16,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { handleUpload } from '@/app/(beforeLogin)/_lib/handleUpload';
 import { dayjsNow } from '@/app/(beforeLogin)/_lib/setDate';
 import { auth, db } from '@/app/firebase';
+import { PreviewImage } from '@/app/(beforeLogin)/signup/_lib/PreviewImage';
 
 interface SignUpInputs {
   name: string;
@@ -21,7 +24,7 @@ interface SignUpInputs {
   nickname: string;
   password: string;
   confirmPassword: string;
-  profileImage: string;
+  profileImage: FileList;
   bio: string;
   createdAt: string;
   updatedAt: string;
@@ -36,6 +39,8 @@ const SignUpForm = () => {
     formState: { errors, isSubmitting },
   } = useForm<SignUpInputs>({ mode: 'onSubmit' });
   const password = watch('password');
+  const watchImage = watch('profileImage');
+  const previewImage = PreviewImage({ watchImage });
 
   const onSubmit: SubmitHandler<SignUpInputs> = async data => {
     try {
@@ -55,7 +60,6 @@ const SignUpForm = () => {
         name: data.name,
         email: user.email,
         nickname: user.displayName,
-        password: data.password,
         profileImage: user.photoURL,
         bio: data.bio,
         createdAt: dayjsNow(),
@@ -167,7 +171,7 @@ const SignUpForm = () => {
           )}
         </div>
 
-        <div className="grid w-full max-w-sm items-center gap-1.5">
+        <div className="grid w-full max-w-screen-sm items-center">
           <Label htmlFor="profileImage">프로필 이미지</Label>
           <Input
             {...register('profileImage', {
@@ -177,8 +181,22 @@ const SignUpForm = () => {
             placeholder="프로필 이미지"
             type="file"
             name="profileImage"
-            className="border-0 bg-[#f5f5f5] hover:cursor-pointer"
+            className="hidden"
           />
+          <label
+            className="mt-3 rounded-xl hover:cursor-pointer"
+            htmlFor="profileImage"
+          >
+            {previewImage && (
+              <Image
+                src={previewImage as string}
+                alt="미리보기"
+                width={500}
+                height={500}
+              />
+            )}
+            {!previewImage && <Skeleton className="h-60 w-64" />}
+          </label>
           {errors.profileImage && (
             <p className="mt-2 text-red-600">{errors.profileImage?.message}</p>
           )}
