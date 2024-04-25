@@ -12,7 +12,11 @@ const RQProvider = ({ children }: Props) => {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
+        refetchOnWindowFocus: false,
+        retryOnMount: true,
+        refetchOnReconnect: false,
         retry: false,
+        staleTime: 60 * 1000,
       },
     },
   });
