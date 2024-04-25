@@ -1,5 +1,7 @@
+import PostForm from '@/app/(afterLogin)/post/_component/PostForm';
+
 const PostPage = () => {
-  return <div>작성페이지 입니다</div>;
+  return <PostForm />;
 };
 
 export default PostPage;
