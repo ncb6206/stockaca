@@ -1,14 +1,13 @@
 'use client';
 
-import { Loader2 } from 'lucide-react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 
 import { auth } from '@/app/firebase';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import SubmitButton from '@/components/ui/SubmitButton';
 
 interface LoginInputs {
   email: string;
@@ -81,13 +80,7 @@ const LoginForm = () => {
         </div>
 
         <div className="flex justify-end">
-          {!isSubmitting && <Button type="submit">로그인</Button>}
-          {isSubmitting && (
-            <Button disabled>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              로그인 중...
-            </Button>
-          )}
+          <SubmitButton isSubmitting={isSubmitting} label="로그인" />
         </div>
       </form>
     </>
