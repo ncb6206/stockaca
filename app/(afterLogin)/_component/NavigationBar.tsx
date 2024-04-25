@@ -22,6 +22,10 @@ const NavigationBar = () => {
   const { user } = useOnAuth();
   const pathname = usePathname();
 
+  if (pathname === '/post') {
+    return null;
+  }
+
   return (
     <nav className="fixed bottom-0 z-10 m-auto grid h-16 w-full max-w-screen-sm grid-cols-5 grid-rows-1 items-center bg-white/85 backdrop-blur-2xl ">
       {navigationItems.map(({ icon: Icon, href }, index) => (
