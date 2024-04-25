@@ -2,7 +2,6 @@
 
 import Image from 'next/image';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Loader2 } from 'lucide-react';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
@@ -10,7 +9,6 @@ import toast from 'react-hot-toast';
 
 import { Skeleton } from '@/components/ui/skeleton';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { handleUpload } from '@/app/(beforeLogin)/_lib/handleUpload';
@@ -18,6 +16,7 @@ import { dayjsNow } from '@/app/(beforeLogin)/_lib/setDate';
 import { auth, db } from '@/app/firebase';
 import { PreviewImage } from '@/app/(beforeLogin)/signup/_lib/PreviewImage';
 import { hashUid } from '@/app/_lib/hashUid';
+import SubmitButton from '@/components/ui/SubmitButton';
 
 interface SignUpInputs {
   name: string;
@@ -27,8 +26,6 @@ interface SignUpInputs {
   confirmPassword: string;
   profileImage: FileList;
   bio: string;
-  createdAt: string;
-  updatedAt: string;
 }
 
 const SignUpForm = () => {
@@ -51,13 +48,16 @@ const SignUpForm = () => {
         data.password,
       );
       const user = userCredential.user;
-      const imageUrl = await handleUpload(data.profileImage[0]);
+      const imageUrl = await handleUpload({
+        selectedFile: data.profileImage[0],
+        collectionName: user.uid,
+      });
       await updateProfile(user, {
         displayName: hashUid({ uid: user.uid }),
         photoURL: imageUrl,
       });
       const collectionUser = doc(db, 'User', user.uid);
-      await setDoc(collectionUser, {
+      const userData = {
         name: data.name,
         email: user.email,
         nickname: data.nickname,
@@ -65,7 +65,8 @@ const SignUpForm = () => {
         bio: data.bio,
         createdAt: dayjsNow(),
         updatedAt: dayjsNow(),
-      });
+      };
+      await setDoc(collectionUser, userData);
 
       if (userCredential.user) {
         router.replace('/home');
@@ -217,13 +218,7 @@ const SignUpForm = () => {
         </div>
 
         <div className="flex justify-end">
-          {!isSubmitting && <Button type="submit">회원가입</Button>}
-          {isSubmitting && (
-            <Button disabled>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              회원가입 중...
-            </Button>
-          )}
+          <SubmitButton isSubmitting={isSubmitting} label="회원가입" />
         </div>
       </form>
     </>
