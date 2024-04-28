@@ -3,10 +3,10 @@ import { getDocs, query } from 'firebase/firestore';
 import { QueryFunction } from '@tanstack/react-query';
 
 import { hashUid } from '@/app/_lib/hashUid';
-import { UserDataType } from '@/app/types/user';
+import { IUserData } from '@/app/types/user';
 
 export const getUser: QueryFunction<
-  UserDataType | null,
+  IUserData | null,
   [_1: string, _2: string]
 > = async ({ queryKey }) => {
   // eslint-disable-next-line no-unused-vars
@@ -18,7 +18,7 @@ export const getUser: QueryFunction<
       doc => hashUid({ uid: doc.id }) === userId,
     );
 
-    return user ? (user.data() as UserDataType) : null;
+    return user ? (user.data() as IUserData) : null;
   } catch (error) {
     console.log(error);
     throw error;

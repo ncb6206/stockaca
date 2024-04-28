@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { Avatar } from '@/components/ui/avatar';
 import { getUser } from '@/app/(afterLogin)/users/[userId]/_lib/getUser';
-import { UserDataType } from '@/app/types/user';
+import { IUserData } from '@/app/types/user';
 
 interface UserProfileProps {
   userId: string;
@@ -13,9 +13,9 @@ interface UserProfileProps {
 
 const UserProfile = ({ userId }: UserProfileProps) => {
   const { data: userData, error } = useQuery<
-    UserDataType | null,
+    IUserData | null,
     Object,
-    UserDataType,
+    IUserData,
     [_1: string, _2: string]
   >({
     queryKey: ['users', userId],
