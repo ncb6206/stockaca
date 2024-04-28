@@ -6,22 +6,21 @@ import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import TextareaAutosize from 'react-textarea-autosize';
 import { AiOutlinePicture } from 'react-icons/ai';
-import { addDoc, collection, updateDoc } from 'firebase/firestore';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { db } from '@/app/firebase';
 import useOnAuth from '@/app/_lib/useOnAuth';
 import { Avatar } from '@/components/ui/avatar';
 import SubmitButton from '@/components/ui/SubmitButton';
 import { PreviewImage } from '@/app/(beforeLogin)/signup/_lib/PreviewImage';
-import { dayjsNow } from '@/app/(beforeLogin)/_lib/setDate';
-import { handleUpload } from '@/app/(beforeLogin)/_lib/handleUpload';
+import { writePost } from '@/app/(afterLogin)/home/_lib/writePost';
 
-interface PostInputs {
+export interface PostInputs {
   photoUrl: FileList;
   content: string;
 }
 
 const PostForm = () => {
+  const queryClient = useQueryClient();
   const router = useRouter();
   const {
     register,
@@ -33,34 +32,21 @@ const PostForm = () => {
   const watchImage = watch('photoUrl');
   const previewImage = PreviewImage({ watchImage });
 
-  const onSubmit: SubmitHandler<PostInputs> = async data => {
-    try {
-      if (user) {
-        const collectionRef = collection(db, 'Feed');
-        const feedData = {
-          userId: user?.uid,
-          commentCount: 0,
-          likeCount: 0,
-          content: data.content,
-          createdAt: dayjsNow(),
-          updatedAt: dayjsNow(),
-          photoUrl: [],
-        };
-        const newDocRef = await addDoc(collectionRef, feedData);
-        const imageUrl = await handleUpload({
-          selectedFile: data.photoUrl[0],
-          collectionName: newDocRef.id,
-        });
-
-        await updateDoc(newDocRef, { photoUrl: [imageUrl] });
-
-        router.replace('/home');
-        toast.success('게시물이 작성되었습니다!');
-      }
-    } catch (error) {
-      console.log((error as Error).message);
+  const writeFeed = useMutation({
+    mutationFn: (data: PostInputs) => writePost({ user, data }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
+      router.replace('/home');
+      toast.success('게시물이 작성되었습니다!');
+    },
+    onError: error => {
+      console.error('Error writing post:', error);
       toast.error('게시물 작성 실패');
-    }
+    },
+  });
+
+  const onSubmit: SubmitHandler<PostInputs> = data => {
+    writeFeed.mutate(data);
   };
 
   return (
@@ -125,7 +111,7 @@ const PostForm = () => {
             </div>
           </div>
         </div>
-        <div className="fixed bottom-0 flex h-16 w-full items-center justify-end bg-background p-4 sm:max-w-screen-sm">
+        <div className="fixed bottom-0 left-0 flex h-16 w-full items-center justify-end bg-background p-4 sm:max-w-screen-sm">
           <SubmitButton
             isSubmitting={isSubmitting}
             label="게시"
