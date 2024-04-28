@@ -21,4 +21,6 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const USER_COLLECTION = collection(db, 'User');
+export const FEED_COLLECTION = collection(db, 'Feed');
+export const LIKE_COLLECTION = collection(db, 'Like');
 export const storage = getStorage(app);
