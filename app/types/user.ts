@@ -1,9 +1,9 @@
-export interface UserDataType {
+export interface IUserData {
   name: string;
   email: string;
   nickname: string;
   profileImage: string;
   bio: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: number;
+  updatedAt: number;
 }

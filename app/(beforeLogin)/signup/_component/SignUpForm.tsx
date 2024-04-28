@@ -12,7 +12,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { handleUpload } from '@/app/(beforeLogin)/_lib/handleUpload';
-import { dayjsNow } from '@/app/(beforeLogin)/_lib/setDate';
 import { auth, db } from '@/app/firebase';
 import { PreviewImage } from '@/app/(beforeLogin)/signup/_lib/PreviewImage';
 import { hashUid } from '@/app/_lib/hashUid';
@@ -63,8 +62,8 @@ const SignUpForm = () => {
         nickname: data.nickname,
         profileImage: user.photoURL,
         bio: data.bio,
-        createdAt: dayjsNow(),
-        updatedAt: dayjsNow(),
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
       };
       await setDoc(collectionUser, userData);
 
