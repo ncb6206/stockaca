@@ -23,14 +23,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={cn(
-          'flex min-h-dvh w-full justify-center bg-background font-sans antialiased',
-          fontSans.variable,
-        )}
-      >
-        {children}
-        <Toaster position="bottom-center" />
+      <body>
+        <div
+          className={cn(
+            'flex min-h-dvh w-full justify-center bg-background font-sans antialiased',
+            fontSans.variable,
+          )}
+        >
+          {children}
+        </div>
+        <Toaster position="bottom-center" containerClassName="mb-16" />
       </body>
     </html>
   );
