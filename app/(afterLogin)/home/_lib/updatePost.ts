@@ -1,13 +1,14 @@
 import { User } from 'firebase/auth';
-import { doc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 
-import { db } from '@/app/firebase';
-import { PostInputs } from '@/app/(afterLogin)/post/_component/PostForm';
+import { db, storage } from '@/app/firebase';
+import { IPostInputs, IUpdatePost } from '@/app/types/post';
 import { handleUpload } from '@/app/(beforeLogin)/_lib/handleUpload';
+import { deleteObject, ref } from 'firebase/storage';
 
 interface IWritePost {
   user?: User | null;
-  data: PostInputs;
+  data: IPostInputs;
   postId: string;
 }
 
@@ -15,20 +16,34 @@ export const updatePost = async ({ user, data, postId }: IWritePost) => {
   try {
     if (user) {
       const postRef = doc(db, 'Feed', postId);
-      await updateDoc(postRef, {
-        content: data.content,
-      });
+      const postSnapshot = await getDoc(postRef);
 
-      if (data.photoUrl[0]) {
-        const imageUrl = await handleUpload({
-          selectedFile: data.photoUrl[0],
-          collectionName: postRef.id,
-        });
+      if (postSnapshot.exists()) {
+        const postData = postSnapshot.data();
+        const updatedData: Partial<IUpdatePost> = {
+          content: data.content,
+          updatedAt: Date.now(),
+        };
 
-        await updateDoc(postRef, { photoUrl: [imageUrl] });
+        if (data.photoUrl[0]) {
+          if (postData.photoUrl && postData.photoUrl.length > 0) {
+            const oldImageRef = ref(storage, postData.photoUrl[0]);
+            await deleteObject(oldImageRef);
+          }
+
+          const imageUrl = await handleUpload({
+            selectedFile: data.photoUrl[0],
+            collectionName: postRef.id,
+          });
+
+          if (imageUrl) {
+            updatedData.photoUrl = [imageUrl];
+          }
+        }
+
+        await updateDoc(postRef, updatedData);
+        return true;
       }
-
-      return true;
     }
   } catch (error) {
     console.log('Error updating post:', error);
