@@ -1,7 +1,7 @@
 import { FEED_COLLECTION } from '@/app/firebase';
 import { IPostData } from '@/app/types/post';
 import { QueryFunction } from '@tanstack/react-query';
-import { getDocs, query } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
 
 export const getPost: QueryFunction<
   IPostData | null,
@@ -10,9 +10,8 @@ export const getPost: QueryFunction<
   // eslint-disable-next-line no-unused-vars
   const [userId, _1, postId] = queryKey;
   try {
-    const q = query(FEED_COLLECTION);
-    const postSnapshot = await getDocs(q);
-    const post = postSnapshot.docs.find(doc => doc.id === postId);
+    const q = doc(FEED_COLLECTION, postId);
+    const post = await getDoc(q);
 
     return post ? (post.data() as IPostData) : null;
   } catch (error) {
