@@ -12,10 +12,11 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { IPostId } from '@/app/types/post';
+import { IPostSetting } from '@/app/types/post';
 import { deletePost } from '../_lib/deletePost';
+import { hashUid } from '@/app/_lib/hashUid';
 
-const PostSetting = ({ postId }: IPostId) => {
+const PostSetting = ({ userId, postId }: IPostSetting) => {
   const queryClient = useQueryClient();
   const router = useRouter();
 
@@ -33,7 +34,8 @@ const PostSetting = ({ postId }: IPostId) => {
 
   const onEditPost = (event: MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
-    router.push(`/post`);
+    const hashUserId = hashUid({ uid: userId });
+    router.push(`/${hashUserId}/post/${postId}/edit`);
   };
 
   const onDeletePost = (event: MouseEvent<HTMLDivElement>) => {
