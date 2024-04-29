@@ -13,6 +13,18 @@ export interface IPostListData {
   post: IPostData;
 }
 
-export interface IPostId {
+export interface IPostSetting {
+  userId: string;
   postId: string;
+}
+
+export interface IPostInputs {
+  photoUrl: FileList;
+  content: string;
+}
+
+export interface IUpdatePost {
+  photoUrl: string[];
+  content: string;
+  updatedAt: number;
 }
