@@ -1,9 +1,12 @@
 import { deleteDoc, doc } from 'firebase/firestore';
 
 import { db } from '@/app/firebase';
-import { IPostId } from '@/app/types/post';
 
-export const deletePost = async ({ postId }: IPostId) => {
+interface IDeletePost {
+  postId: string;
+}
+
+export const deletePost = async ({ postId }: IDeletePost) => {
   try {
     const postRef = doc(db, 'Feed', postId);
     await deleteDoc(postRef);

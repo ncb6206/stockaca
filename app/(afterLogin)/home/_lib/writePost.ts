@@ -2,12 +2,13 @@ import { addDoc, updateDoc } from 'firebase/firestore';
 
 import { FEED_COLLECTION } from '@/app/firebase';
 import { User } from 'firebase/auth';
-import { PostInputs } from '@/app/(afterLogin)/post/_component/PostForm';
+
+import { IPostInputs } from '@/app/types/post';
 import { handleUpload } from '@/app/(beforeLogin)/_lib/handleUpload';
 
 interface IWritePost {
   user?: User | null;
-  data: PostInputs;
+  data: IPostInputs;
 }
 
 export const writePost = async ({ user, data }: IWritePost) => {
