@@ -1,5 +1,6 @@
 'use client';
 
+import { MouseEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
@@ -15,7 +16,6 @@ import { formatDateTime } from '@/app/_lib/formatDateTime';
 import CommentCount from '@/app/(afterLogin)/home/_component/CommentCount';
 import PostSetting from '@/app/(afterLogin)/home/_component/PostSetting';
 import useOnAuth from '@/app/_lib/useOnAuth';
-import { MouseEvent } from 'react';
 
 const PostCard = ({ postId, post }: IPostListData) => {
   const router = useRouter();
@@ -78,7 +78,9 @@ const PostCard = ({ postId, post }: IPostListData) => {
             <CommentCount commentCount={post.commentCount} />
           </div>
         </div>
-        {user?.uid === post.userId && <PostSetting postId={postId} />}
+        {user?.uid === post.userId && (
+          <PostSetting userId={user.uid} postId={postId} />
+        )}
       </div>
       <hr className="absolute bottom-0 left-0 w-full" />
     </div>

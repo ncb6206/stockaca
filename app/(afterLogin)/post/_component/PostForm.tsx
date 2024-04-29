@@ -13,11 +13,7 @@ import { Avatar } from '@/components/ui/avatar';
 import SubmitButton from '@/components/ui/SubmitButton';
 import { PreviewImage } from '@/app/(beforeLogin)/signup/_lib/PreviewImage';
 import { writePost } from '@/app/(afterLogin)/home/_lib/writePost';
-
-export interface PostInputs {
-  photoUrl: FileList;
-  content: string;
-}
+import { IPostInputs } from '@/app/types/post';
 
 const PostForm = () => {
   const queryClient = useQueryClient();
@@ -27,13 +23,13 @@ const PostForm = () => {
     handleSubmit,
     watch,
     formState: { errors, isSubmitting },
-  } = useForm<PostInputs>({ mode: 'onSubmit' });
+  } = useForm<IPostInputs>({ mode: 'onSubmit' });
   const { user } = useOnAuth();
   const watchImage = watch('photoUrl');
   const previewImage = PreviewImage({ watchImage });
 
   const writeFeed = useMutation({
-    mutationFn: (data: PostInputs) => writePost({ user, data }),
+    mutationFn: (data: IPostInputs) => writePost({ user, data }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['posts'] });
       router.replace('/home');
@@ -45,7 +41,7 @@ const PostForm = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<PostInputs> = data => {
+  const onSubmit: SubmitHandler<IPostInputs> = data => {
     writeFeed.mutate(data);
   };
 
@@ -68,7 +64,7 @@ const PostForm = () => {
               />
             )}
           </Avatar>
-          <div className="flex w-full flex-col gap-2">
+          <div className="flex w-full flex-col gap-4">
             <p className="font-semibold">{user?.email}</p>
             <TextareaAutosize
               {...register('content', { required: '내용을 입력해주세요!' })}
@@ -111,7 +107,7 @@ const PostForm = () => {
             </div>
           </div>
         </div>
-        <div className="fixed bottom-0 left-0 flex h-16 w-full items-center justify-end bg-background p-4 sm:max-w-screen-sm">
+        <div className="fixed bottom-0 left-0 z-30 flex h-16 w-full items-center justify-end bg-background p-4 sm:max-w-screen-sm">
           <SubmitButton
             isSubmitting={isSubmitting}
             label="게시"

@@ -6,18 +6,16 @@ import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import TextareaAutosize from 'react-textarea-autosize';
 import { AiOutlinePicture } from 'react-icons/ai';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import useOnAuth from '@/app/_lib/useOnAuth';
 import { Avatar } from '@/components/ui/avatar';
 import SubmitButton from '@/components/ui/SubmitButton';
 import { PreviewImage } from '@/app/(beforeLogin)/signup/_lib/PreviewImage';
 import { updatePost } from '@/app/(afterLogin)/home/_lib/updatePost';
-
-export interface PostInputs {
-  photoUrl: FileList;
-  content: string;
-}
+import { IPostInputs } from '@/app/types/post';
+import { getPost } from '@/app/(afterLogin)/[userId]/post/[postId]/_lib/getPost';
+import { useEffect } from 'react';
 
 interface EditFormProps {
   userId: string;
@@ -27,18 +25,34 @@ interface EditFormProps {
 const EditForm = ({ userId, postId }: EditFormProps) => {
   const queryClient = useQueryClient();
   const router = useRouter();
+  const { data: initialPost } = useQuery({
+    queryKey: [userId, 'post', postId],
+    queryFn: getPost,
+    staleTime: 60 * 1000,
+    gcTime: 300 * 1000,
+    enabled: !!userId && !!postId,
+  });
+
   const {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors, isSubmitting },
-  } = useForm<PostInputs>({ mode: 'onSubmit' });
+  } = useForm<IPostInputs>({ mode: 'onSubmit' });
+
+  useEffect(() => {
+    if (initialPost) {
+      setValue('content', initialPost.content);
+    }
+  }, [initialPost, setValue]);
+
   const { user } = useOnAuth();
   const watchImage = watch('photoUrl');
   const previewImage = PreviewImage({ watchImage });
 
   const updateFeed = useMutation({
-    mutationFn: (data: PostInputs) => updatePost({ user, data, postId }),
+    mutationFn: (data: IPostInputs) => updatePost({ user, data, postId }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['posts'] });
       queryClient.invalidateQueries({ queryKey: [userId, 'post', postId] });
@@ -51,8 +65,13 @@ const EditForm = ({ userId, postId }: EditFormProps) => {
     },
   });
 
-  const onSubmit: SubmitHandler<PostInputs> = data => {
-    updateFeed.mutate(data);
+  const onSubmit: SubmitHandler<IPostInputs> = data => {
+    if (user?.displayName === userId) {
+      updateFeed.mutate(data);
+    } else {
+      toast.error('게시물 작성자가 아닙니다');
+      router.replace('/home');
+    }
   };
 
   return (
@@ -74,7 +93,7 @@ const EditForm = ({ userId, postId }: EditFormProps) => {
               />
             )}
           </Avatar>
-          <div className="flex w-full flex-col gap-2">
+          <div className="flex w-full flex-col gap-4">
             <p className="font-semibold">{user?.email}</p>
             <TextareaAutosize
               {...register('content', { required: '내용을 입력해주세요!' })}
@@ -97,6 +116,14 @@ const EditForm = ({ userId, postId }: EditFormProps) => {
                 name="photoUrl"
                 className="hidden"
               />
+              {!previewImage && initialPost?.photoUrl[0] && (
+                <Image
+                  src={initialPost?.photoUrl[0]}
+                  alt="미리보기"
+                  width={500}
+                  height={500}
+                />
+              )}
               {previewImage && (
                 <Image
                   src={previewImage as string}
@@ -117,7 +144,7 @@ const EditForm = ({ userId, postId }: EditFormProps) => {
             </div>
           </div>
         </div>
-        <div className="fixed bottom-0 left-0 flex h-16 w-full items-center justify-end bg-background p-4 sm:max-w-screen-sm">
+        <div className="fixed bottom-0 left-0 z-30 flex h-16 w-full items-center justify-end bg-background p-4 sm:max-w-screen-sm">
           <SubmitButton
             isSubmitting={isSubmitting}
             label="게시"
