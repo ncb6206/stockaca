@@ -14,6 +14,7 @@ import SubmitButton from '@/components/ui/SubmitButton';
 import { PreviewImage } from '@/app/(beforeLogin)/signup/_lib/PreviewImage';
 import { writePost } from '@/app/(afterLogin)/home/_lib/writePost';
 import { IPostInputs } from '@/app/types/post';
+import { usePostStore } from '@/app/store/usePost';
 
 const PostForm = () => {
   const queryClient = useQueryClient();
@@ -25,19 +26,33 @@ const PostForm = () => {
     formState: { errors, isSubmitting },
   } = useForm<IPostInputs>({ mode: 'onSubmit' });
   const { user } = useOnAuth();
+  const { mode, parentPostId, reset } = usePostStore();
   const watchImage = watch('photoUrl');
   const previewImage = PreviewImage({ watchImage });
 
   const writeFeed = useMutation({
-    mutationFn: (data: IPostInputs) => writePost({ user, data }),
+    mutationFn: (data: IPostInputs) => writePost({ user, data, parentPostId }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['posts'] });
-      router.replace('/home');
+      if (parentPostId) {
+        queryClient.invalidateQueries({
+          queryKey: ['post', parentPostId, 'comments'],
+        });
+        queryClient.invalidateQueries({
+          queryKey: [user?.displayName, 'post', parentPostId],
+        });
+        router.back();
+      } else {
+        queryClient.invalidateQueries({ queryKey: ['posts'] });
+        router.replace('/home');
+      }
       toast.success('게시물이 작성되었습니다!');
     },
     onError: error => {
       console.error('Error writing post:', error);
       toast.error('게시물 작성 실패');
+    },
+    onSettled: () => {
+      reset();
     },
   });
 
@@ -51,6 +66,7 @@ const PostForm = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="w-full space-y-6 overflow-x-auto p-6"
       >
+        {mode === 'comment' && <p className="font-bold">답글 작성</p>}
         <div className="flex flex-row gap-4">
           <Avatar className="h-16 w-16">
             {user?.photoURL && (
