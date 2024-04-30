@@ -4,26 +4,37 @@ import { MouseEvent } from 'react';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { BsThreeDots } from 'react-icons/bs';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-
 import { IPostSetting } from '@/app/types/post';
-import { deletePost } from '../_lib/deletePost';
-import { hashUid } from '@/app/_lib/hashUid';
+import { deletePost } from '@/app/(afterLogin)/home/_lib/deletePost';
+import { usePostStore } from '@/app/store/usePost';
 
-const PostSetting = ({ userId, postId }: IPostSetting) => {
+const PostSetting = ({
+  userId,
+  postId,
+  parentPostId,
+  isCommentOwner,
+}: IPostSetting) => {
   const queryClient = useQueryClient();
+  const { setMode, setParentPostId } = usePostStore();
   const router = useRouter();
 
   const deleteFeed = useMutation({
-    mutationFn: () => deletePost({ postId }),
+    mutationFn: () => deletePost({ postId, parentPostId }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['posts'] });
+      if (parentPostId) {
+        queryClient.invalidateQueries({
+          queryKey: ['post', parentPostId, 'comments'],
+        });
+      }
       toast.success('삭제되었습니다!');
     },
     onError: error => {
@@ -34,8 +45,11 @@ const PostSetting = ({ userId, postId }: IPostSetting) => {
 
   const onEditPost = (event: MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
-    const hashUserId = hashUid({ uid: userId });
-    router.push(`/${hashUserId}/post/${postId}/edit`);
+    if (parentPostId) {
+      setMode('comment');
+      setParentPostId(parentPostId);
+    }
+    router.push(`/${userId}/post/${postId}/edit`);
   };
 
   const onDeletePost = (event: MouseEvent<HTMLDivElement>) => {
@@ -50,12 +64,14 @@ const PostSetting = ({ userId, postId }: IPostSetting) => {
           <BsThreeDots />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="absolute -right-3">
-          <DropdownMenuItem
-            className="hover:cursor-pointer"
-            onClick={onEditPost}
-          >
-            수정
-          </DropdownMenuItem>
+          {isCommentOwner && (
+            <DropdownMenuItem
+              className="hover:cursor-pointer"
+              onClick={onEditPost}
+            >
+              수정
+            </DropdownMenuItem>
+          )}
           <DropdownMenuItem
             className="hover:cursor-pointer"
             onClick={onDeletePost}
