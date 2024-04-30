@@ -16,6 +16,7 @@ import { updatePost } from '@/app/(afterLogin)/home/_lib/updatePost';
 import { IPostInputs } from '@/app/types/post';
 import { getPost } from '@/app/(afterLogin)/[userId]/post/[postId]/_lib/getPost';
 import { useEffect } from 'react';
+import { usePostStore } from '@/app/store/usePost';
 
 interface EditFormProps {
   userId: string;
@@ -25,6 +26,7 @@ interface EditFormProps {
 const EditForm = ({ userId, postId }: EditFormProps) => {
   const queryClient = useQueryClient();
   const router = useRouter();
+  const { reset, parentPostId, mode } = usePostStore();
   const { data: initialPost } = useQuery({
     queryKey: [userId, 'post', postId],
     queryFn: getPost,
@@ -32,6 +34,8 @@ const EditForm = ({ userId, postId }: EditFormProps) => {
     gcTime: 300 * 1000,
     enabled: !!userId && !!postId,
   });
+
+  console.log(parentPostId, mode);
 
   const {
     register,
@@ -47,7 +51,7 @@ const EditForm = ({ userId, postId }: EditFormProps) => {
     }
   }, [initialPost, setValue]);
 
-  const { user } = useOnAuth();
+  const { user, loading } = useOnAuth();
   const watchImage = watch('photoUrl');
   const previewImage = PreviewImage({ watchImage });
 
@@ -56,23 +60,30 @@ const EditForm = ({ userId, postId }: EditFormProps) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['posts'] });
       queryClient.invalidateQueries({ queryKey: [userId, 'post', postId] });
-      router.replace('/home');
+      if (parentPostId) {
+        queryClient.invalidateQueries({
+          queryKey: ['post', parentPostId, 'comments'],
+        });
+      }
+      router.back();
       toast.success('게시물이 수정되었습니다!');
     },
     onError: error => {
       console.error('Error editing post:', error);
       toast.error('게시물 수정 실패');
     },
+    onSettled: () => {
+      reset();
+    },
   });
 
   const onSubmit: SubmitHandler<IPostInputs> = data => {
-    if (user?.displayName === userId) {
-      updateFeed.mutate(data);
-    } else {
-      toast.error('게시물 작성자가 아닙니다');
-      router.replace('/home');
-    }
+    updateFeed.mutate(data);
   };
+
+  if (!loading && user?.displayName !== userId) {
+    router.replace('/home');
+  }
 
   return (
     <div className="relative flex h-full max-h-dvh w-full flex-col ">
@@ -80,6 +91,7 @@ const EditForm = ({ userId, postId }: EditFormProps) => {
         onSubmit={handleSubmit(onSubmit)}
         className="w-full space-y-6 overflow-x-auto p-6"
       >
+        {mode === 'comment' && <p className="font-bold">답글 수정</p>}
         <div className="flex flex-row gap-4">
           <Avatar className="h-16 w-16">
             {user?.photoURL && (

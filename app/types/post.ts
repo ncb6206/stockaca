@@ -2,6 +2,7 @@ export interface IPostData {
   userId: string;
   commentCount: number;
   content: string;
+  parentFeedId: string;
   likeCount: number;
   photoUrl: string[];
   updatedAt: number;
@@ -13,9 +14,15 @@ export interface IPostListData {
   post: IPostData;
 }
 
+export interface IPostCard extends IPostListData {
+  parentPostUserId?: string;
+}
+
 export interface IPostSetting {
   userId: string;
   postId: string;
+  parentPostId?: string;
+  isCommentOwner?: boolean;
 }
 
 export interface IPostInputs {
@@ -27,4 +34,9 @@ export interface IUpdatePost {
   photoUrl: string[];
   content: string;
   updatedAt: number;
+}
+
+export interface IPostCommentProps {
+  userId: string;
+  postId: string;
 }

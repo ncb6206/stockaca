@@ -38,6 +38,7 @@ const PostList = () => {
     staleTime: 60 * 1000,
     gcTime: 300 * 1000,
   });
+
   const { ref, inView } = useInView({
     threshold: 0.5,
   });
@@ -50,20 +51,20 @@ const PostList = () => {
     }
   }, [hasNextPage, inView, isFetching, throttledFetchNextPage]);
 
+  const posts = data?.pages
+    .flatMap(page => page.docs)
+    .map(doc => ({ postId: doc.id, post: doc.data() }));
+
   return (
     <div className="flex h-full w-full flex-col">
       <Suspense fallback={<Loading />}>
-        {data?.pages.flatMap(page =>
-          page.docs
-            .map(doc => ({ postId: doc.id, post: doc.data() }))
-            .map(post => (
-              <PostCard
-                key={post.postId}
-                postId={post.postId}
-                post={post.post as IPostData}
-              />
-            )),
-        )}
+        {posts?.map(post => (
+          <PostCard
+            key={post.postId}
+            postId={post.postId}
+            post={post.post as IPostData}
+          />
+        ))}
       </Suspense>
       {hasNextPage && (
         <div ref={ref} className="flex h-16 items-center justify-center">

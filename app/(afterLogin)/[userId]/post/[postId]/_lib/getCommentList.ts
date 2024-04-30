@@ -12,13 +12,13 @@ import {
 
 import { db } from '@/app/firebase';
 
-export const getPostListFirst = async () => {
-  console.log('first 실행');
+export const getCommentListFirst = async (postId: string) => {
+  console.log('first comment 실행');
   const first = query(
     collection(db, 'Feed'),
-    where('parentFeedId', '==', ''),
+    where('parentFeedId', '==', postId),
     orderBy('createdAt', 'desc'),
-    limit(10),
+    limit(20),
   );
 
   const postSnap = await getDocs(first);
@@ -26,16 +26,17 @@ export const getPostListFirst = async () => {
   return postSnap;
 };
 
-export const getPostListNext = async (
+export const getCommentListNext = async (
+  postId: string,
   pageParam: QueryDocumentSnapshot<DocumentData, DocumentData>,
 ) => {
-  console.log('next 실행');
+  console.log('next comment 실행');
   const next = query(
     collection(db, 'Feed'),
-    where('parentFeedId', '==', ''),
+    where('parentFeedId', '==', postId),
     orderBy('createdAt', 'desc'),
     startAfter(pageParam),
-    limit(10),
+    limit(20),
   );
 
   const nextSnap = await getDocs(next);

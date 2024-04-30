@@ -1,4 +1,4 @@
-import { addDoc, updateDoc } from 'firebase/firestore';
+import { addDoc, doc, increment, updateDoc } from 'firebase/firestore';
 
 import { FEED_COLLECTION } from '@/app/firebase';
 import { User } from 'firebase/auth';
@@ -9,22 +9,22 @@ import { handleUpload } from '@/app/(beforeLogin)/_lib/handleUpload';
 interface IWritePost {
   user?: User | null;
   data: IPostInputs;
+  parentPostId?: string;
 }
 
-export const writePost = async ({ user, data }: IWritePost) => {
+export const writePost = async ({ user, data, parentPostId }: IWritePost) => {
   try {
     if (user) {
       const postRef = FEED_COLLECTION;
       const feedData = {
         userId: user?.uid,
-        comment: [],
         commentCount: 0,
-        like: [],
         likeCount: 0,
         content: data.content,
         createdAt: Date.now(),
         updatedAt: Date.now(),
         photoUrl: [],
+        parentFeedId: parentPostId || '',
       };
       const newDocRef = await addDoc(postRef, feedData);
 
@@ -35,6 +35,13 @@ export const writePost = async ({ user, data }: IWritePost) => {
         });
 
         await updateDoc(newDocRef, { photoUrl: [imageUrl] });
+      }
+
+      if (parentPostId) {
+        const parentPostRef = doc(FEED_COLLECTION, parentPostId);
+        await updateDoc(parentPostRef, {
+          commentCount: increment(1),
+        });
       }
 
       return true;

@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import { v4 as uuidv4 } from 'uuid';
 
-import { IPostListData } from '@/app/types/post';
+import { IPostCard } from '@/app/types/post';
 import { IUserData } from '@/app/types/user';
 import { getUser } from '@/app/(afterLogin)/users/[userId]/_lib/getUser';
 import { hashUid } from '@/app/_lib/hashUid';
@@ -17,7 +17,7 @@ import CommentCount from '@/app/(afterLogin)/home/_component/CommentCount';
 import PostSetting from '@/app/(afterLogin)/home/_component/PostSetting';
 import useOnAuth from '@/app/_lib/useOnAuth';
 
-const PostCard = ({ postId, post }: IPostListData) => {
+const PostCard = ({ postId, post, parentPostUserId }: IPostCard) => {
   const router = useRouter();
   const { user } = useOnAuth();
   const { data: userData } = useQuery<
@@ -78,8 +78,14 @@ const PostCard = ({ postId, post }: IPostListData) => {
             <CommentCount commentCount={post.commentCount} />
           </div>
         </div>
-        {user?.uid === post.userId && (
-          <PostSetting userId={user.uid} postId={postId} />
+        {(user?.uid === post.userId ||
+          user?.displayName === parentPostUserId) && (
+          <PostSetting
+            userId={user?.displayName as string}
+            postId={postId}
+            parentPostId={post.parentFeedId}
+            isCommentOwner={user?.uid === post.userId}
+          />
         )}
       </div>
       <hr className="absolute bottom-0 left-0 w-full" />
