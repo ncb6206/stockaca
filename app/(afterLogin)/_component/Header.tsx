@@ -1,29 +1,19 @@
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation';
-import { IoArrowBack } from 'react-icons/io5';
+import { usePathname } from 'next/navigation';
+import BackButton from '@/app/(afterLogin)/_component/BackButton';
 
 const Header = () => {
-  const router = useRouter();
   const pathname = usePathname();
 
-  const showBackButtonRoutes = ['/post', '/home/'];
-  const shouldShowBackButton = showBackButtonRoutes.some(path =>
+  const hiddenBackButtonRoutes = ['/search', '/home', '/messages'];
+  const hiddenBackButton = hiddenBackButtonRoutes.some(path =>
     pathname.startsWith(path),
   );
 
-  const goBack = () => {
-    router.back();
-  };
-
   return (
     <header className="fixed z-10 flex h-16 w-full max-w-screen-sm items-center bg-background px-4">
-      {shouldShowBackButton && (
-        <IoArrowBack
-          className="h-8 w-8 hover:cursor-pointer"
-          onClick={goBack}
-        />
-      )}
+      {!hiddenBackButton && <BackButton />}
     </header>
   );
 };
