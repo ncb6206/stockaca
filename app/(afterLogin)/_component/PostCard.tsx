@@ -1,6 +1,6 @@
 'use client';
 
-import { MouseEvent } from 'react';
+import { MouseEvent, MouseEventHandler } from 'react';
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
@@ -16,17 +16,19 @@ import { formatDateTime } from '@/app/_lib/formatDateTime';
 import CommentCount from '@/app/(afterLogin)/home/_component/CommentCount';
 import PostSetting from '@/app/(afterLogin)/home/_component/PostSetting';
 import useOnAuth from '@/app/_lib/useOnAuth';
+import Link from 'next/link';
 
 const PostCard = ({ postId, post, parentPostUserId }: IPostCard) => {
   const router = useRouter();
   const { user } = useOnAuth();
+  const hashedUid = hashUid({ uid: post.userId });
   const { data: userData } = useQuery<
     IUserData | null,
     Object,
     IUserData,
     [_1: string, _2: string]
   >({
-    queryKey: ['users', hashUid({ uid: post.userId })],
+    queryKey: ['users', hashedUid],
     queryFn: getUser,
     staleTime: 60 * 1000,
     gcTime: 300 * 1000,
@@ -34,7 +36,11 @@ const PostCard = ({ postId, post, parentPostUserId }: IPostCard) => {
 
   const goPost = (event: MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
-    router.push(`/${user?.displayName}/post/${postId}`);
+    router.push(`/${hashedUid}/post/${postId}`);
+  };
+
+  const stopPropagation: MouseEventHandler<HTMLAnchorElement> = e => {
+    e.stopPropagation();
   };
 
   return (
@@ -54,7 +60,13 @@ const PostCard = ({ postId, post, parentPostUserId }: IPostCard) => {
         </Avatar>
         <div className="flex w-full flex-col">
           <div className="flex flex-row gap-2">
-            <span className="font-bold">{userData?.nickname}</span>
+            <Link
+              href={`/users/${hashedUid}`}
+              className="hover:underline"
+              onClick={stopPropagation}
+            >
+              <span className="font-bold">{userData?.nickname}</span>
+            </Link>
             <p className="font-light text-gray-400">
               {formatDateTime({ createdAt: post.createdAt })}
             </p>
