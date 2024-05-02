@@ -4,7 +4,6 @@ import {
   dehydrate,
 } from '@tanstack/react-query';
 
-import LogoutButton from '@/app/(afterLogin)/users/[userId]/_component/LogoutButton';
 import UserProfile from '@/app/(afterLogin)/users/[userId]/_component/UserProfile';
 import { getUserServer } from '@/app/(afterLogin)/users/[userId]/_lib/getUserServer';
 
@@ -13,7 +12,7 @@ interface UserPageProps {
 }
 
 const UserPage = async ({ params }: UserPageProps) => {
-  const userId = decodeURIComponent(params.userId);
+  const { userId } = params;
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
@@ -29,8 +28,8 @@ const UserPage = async ({ params }: UserPageProps) => {
         <HydrationBoundary state={dehydratedState}>
           <UserProfile userId={userId} />
         </HydrationBoundary>
-        <LogoutButton userId={userId} />
       </div>
+      <hr />
     </div>
   );
 };

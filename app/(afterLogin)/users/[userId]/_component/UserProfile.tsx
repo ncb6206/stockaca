@@ -6,13 +6,19 @@ import { useQuery } from '@tanstack/react-query';
 import { Avatar } from '@/components/ui/avatar';
 import { getUser } from '@/app/(afterLogin)/users/[userId]/_lib/getUser';
 import { IUserData } from '@/app/types/user';
+import LogoutButton from '@/app/(afterLogin)/users/[userId]/_component/LogoutButton';
+import FollowButton from '@/app/(afterLogin)/users/[userId]/_component/FollowButton';
+import { IFollowData } from '@/app/types/follow';
+import { getFollowData } from '@/app/(afterLogin)/users/[userId]/_lib/getFollowData';
+import useFollowModalStore from '@/app/store/useFollowModal';
 
 interface UserProfileProps {
   userId: string;
 }
 
 const UserProfile = ({ userId }: UserProfileProps) => {
-  const { data: userData, error } = useQuery<
+  const { onOpen, onSetUserId } = useFollowModalStore();
+  const { data: userData, error: userError } = useQuery<
     IUserData | null,
     Object,
     IUserData,
@@ -24,7 +30,24 @@ const UserProfile = ({ userId }: UserProfileProps) => {
     gcTime: 300 * 1000,
   });
 
-  if (!userData || error) {
+  const { data: followData } = useQuery<
+    IFollowData | null,
+    Object,
+    IFollowData,
+    [_1: string, _2: string]
+  >({
+    queryKey: ['follow', userId],
+    queryFn: getFollowData,
+    staleTime: 60 * 1000,
+    gcTime: 300 * 1000,
+  });
+
+  const onOpenFollowModal = () => {
+    onSetUserId(userId);
+    onOpen();
+  };
+
+  if (!userData || userError) {
     return <div>이런! 사용자를 찾을 수 없습니다.</div>;
   }
 
@@ -49,6 +72,37 @@ const UserProfile = ({ userId }: UserProfileProps) => {
         </Avatar>
       </div>
       <p>{userData?.bio}</p>
+      <div className="mt-2 flex items-center">
+        <div
+          className="flex gap-4 hover:cursor-pointer hover:underline"
+          onClick={onOpenFollowModal}
+        >
+          <div>
+            <p>
+              팔로워
+              <span className="mx-1 font-bold">
+                {followData?.followerUserId.length}
+              </span>
+            </p>
+          </div>
+          <div>
+            <p>
+              팔로잉
+              <span className="mx-1 font-bold">
+                {followData?.followingUserId.length}
+              </span>
+            </p>
+          </div>
+        </div>
+        <div className="flex-1" />
+        <div className="flex gap-2">
+          <FollowButton
+            userId={userId}
+            followData={followData as IFollowData}
+          />
+          <LogoutButton userId={userId} />
+        </div>
+      </div>
     </div>
   );
 };
