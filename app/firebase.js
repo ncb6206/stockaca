@@ -23,4 +23,5 @@ export const db = getFirestore(app);
 export const USER_COLLECTION = collection(db, 'User');
 export const FEED_COLLECTION = collection(db, 'Feed');
 export const LIKE_COLLECTION = collection(db, 'Like');
+export const FOLLOW_COLLECTION = collection(db, 'Follow');
 export const storage = getStorage(app);

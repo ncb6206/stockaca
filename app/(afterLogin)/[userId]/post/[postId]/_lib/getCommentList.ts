@@ -1,7 +1,6 @@
 import {
   DocumentData,
   QueryDocumentSnapshot,
-  collection,
   getDocs,
   limit,
   orderBy,
@@ -10,12 +9,12 @@ import {
   where,
 } from 'firebase/firestore';
 
-import { db } from '@/app/firebase';
+import { FEED_COLLECTION } from '@/app/firebase';
 
 export const getCommentListFirst = async (postId: string) => {
   console.log('first comment 실행');
   const first = query(
-    collection(db, 'Feed'),
+    FEED_COLLECTION,
     where('parentFeedId', '==', postId),
     orderBy('createdAt', 'desc'),
     limit(20),
@@ -32,7 +31,7 @@ export const getCommentListNext = async (
 ) => {
   console.log('next comment 실행');
   const next = query(
-    collection(db, 'Feed'),
+    FEED_COLLECTION,
     where('parentFeedId', '==', postId),
     orderBy('createdAt', 'desc'),
     startAfter(pageParam),

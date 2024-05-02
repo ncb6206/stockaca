@@ -4,6 +4,7 @@ import RedirectToLogin from '@/app/(afterLogin)/_component/RedirectToLogin';
 import NavigationBar from '@/app/(afterLogin)/_component/NavigationBar';
 import RQProvider from '@/app/(afterLogin)/_component/RQProvider';
 import Header from '@/app/(afterLogin)/_component/Header';
+import FollowModal from '@/app/(afterLogin)/users/[userId]/_component/FollowModal';
 
 type Props = { children: ReactNode };
 
@@ -16,6 +17,7 @@ const AfterLoginLayout = ({ children }: Props) => {
         {children}
       </div>
       <NavigationBar />
+      <FollowModal />
     </RQProvider>
   );
 };
