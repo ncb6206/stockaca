@@ -1,7 +1,6 @@
 import {
   DocumentData,
   QueryDocumentSnapshot,
-  collection,
   getDocs,
   limit,
   orderBy,
@@ -10,12 +9,12 @@ import {
   where,
 } from 'firebase/firestore';
 
-import { db } from '@/app/firebase';
+import { FEED_COLLECTION } from '@/app/firebase';
 
 export const getPostListFirst = async () => {
   console.log('first 실행');
   const first = query(
-    collection(db, 'Feed'),
+    FEED_COLLECTION,
     where('parentFeedId', '==', ''),
     orderBy('createdAt', 'desc'),
     limit(10),
@@ -31,7 +30,7 @@ export const getPostListNext = async (
 ) => {
   console.log('next 실행');
   const next = query(
-    collection(db, 'Feed'),
+    FEED_COLLECTION,
     where('parentFeedId', '==', ''),
     orderBy('createdAt', 'desc'),
     startAfter(pageParam),

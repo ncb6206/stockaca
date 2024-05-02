@@ -25,6 +25,7 @@ export const writePost = async ({ user, data, parentPostId }: IWritePost) => {
         updatedAt: Date.now(),
         photoUrl: [],
         parentFeedId: parentPostId || '',
+        hashedUserId: user.displayName,
       };
       const newDocRef = await addDoc(postRef, feedData);
 
