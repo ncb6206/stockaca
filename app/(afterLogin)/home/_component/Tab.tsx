@@ -15,15 +15,15 @@ const Tab = () => {
   };
 
   return (
-    <div className="grid w-full cursor-pointer grid-cols-2">
+    <div className="grid w-full cursor-pointer grid-cols-2 text-gray-400">
       <div
-        className={`flex flex-col items-center border-b py-4 text-gray-400 ${tab === 'main' && 'border-black font-bold text-black'}`}
+        className={`flex flex-col items-center border-b py-4 ${tab === 'main' && 'border-black font-bold text-black'}`}
         onClick={onClickMain}
       >
         메인
       </div>
       <div
-        className={`flex flex-col items-center border-b py-4 text-gray-400 ${tab === 'fol' && 'border-black font-bold text-black'}`}
+        className={`flex flex-col items-center border-b py-4 ${tab === 'fol' && 'border-black font-bold text-black'}`}
         onClick={onClickFollow}
       >
         팔로잉
