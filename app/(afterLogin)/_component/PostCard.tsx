@@ -1,14 +1,12 @@
 'use client';
 
+import Link from 'next/link';
 import { MouseEvent, MouseEventHandler } from 'react';
 import { useRouter } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import { v4 as uuidv4 } from 'uuid';
 
 import { IPostCard } from '@/app/types/post';
-import { IUserData } from '@/app/types/user';
-import { getUser } from '@/app/(afterLogin)/users/[userId]/_lib/getUser';
 import { hashUid } from '@/app/_lib/hashUid';
 import { Avatar } from '@/components/ui/avatar';
 import LikeCount from '@/app/(afterLogin)/home/_component/LikeCount';
@@ -16,23 +14,13 @@ import { formatDateTime } from '@/app/_lib/formatDateTime';
 import CommentCount from '@/app/(afterLogin)/home/_component/CommentCount';
 import PostSetting from '@/app/(afterLogin)/home/_component/PostSetting';
 import useOnAuth from '@/app/_lib/useOnAuth';
-import Link from 'next/link';
+import useGetUserData from '@/app/(afterLogin)/users/[userId]/_hook/useGetUserData';
 
 const PostCard = ({ postId, post, parentPostUserId }: IPostCard) => {
   const router = useRouter();
-  const { user } = useOnAuth();
   const hashedUid = hashUid({ uid: post.userId });
-  const { data: userData } = useQuery<
-    IUserData | null,
-    Object,
-    IUserData,
-    [_1: string, _2: string]
-  >({
-    queryKey: ['users', hashedUid],
-    queryFn: getUser,
-    staleTime: 60 * 1000,
-    gcTime: 300 * 1000,
-  });
+  const { user } = useOnAuth();
+  const { data: userData } = useGetUserData({ userId: hashedUid });
 
   const goPost = (event: MouseEvent<HTMLDivElement>) => {
     event.preventDefault();

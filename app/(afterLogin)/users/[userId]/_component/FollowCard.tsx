@@ -1,13 +1,11 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
-
-import { IUserData } from '@/app/types/user';
-import { getUser } from '@/app/(afterLogin)/users/[userId]/_lib/getUser';
-import { Avatar } from '@/components/ui/avatar';
 import Image from 'next/image';
 import Link from 'next/link';
+
+import { Avatar } from '@/components/ui/avatar';
 import useFollowModalStore from '@/app/store/useFollowModal';
+import useGetUserData from '@/app/(afterLogin)/users/[userId]/_hook/useGetUserData';
 
 interface IFollowCardProps {
   userId: string;
@@ -15,17 +13,7 @@ interface IFollowCardProps {
 
 const FollowCard = ({ userId }: IFollowCardProps) => {
   const { onChange } = useFollowModalStore();
-  const { data: userData } = useQuery<
-    IUserData | null,
-    Object,
-    IUserData,
-    [_1: string, _2: string]
-  >({
-    queryKey: ['users', userId],
-    queryFn: getUser,
-    staleTime: 60 * 1000,
-    gcTime: 300 * 1000,
-  });
+  const { data: userData } = useGetUserData({ userId });
 
   return (
     <Link href={`/users/${userId}`} onClick={onChange}>

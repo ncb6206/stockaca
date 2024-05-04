@@ -1,16 +1,14 @@
 'use client';
 
 import Image from 'next/image';
-import { useQuery } from '@tanstack/react-query';
 
 import { Avatar } from '@/components/ui/avatar';
-import { getUser } from '@/app/(afterLogin)/users/[userId]/_lib/getUser';
-import { IUserData } from '@/app/types/user';
 import LogoutButton from '@/app/(afterLogin)/users/[userId]/_component/LogoutButton';
 import FollowButton from '@/app/(afterLogin)/users/[userId]/_component/FollowButton';
 import { IFollowData } from '@/app/types/follow';
-import { getFollowData } from '@/app/(afterLogin)/users/[userId]/_lib/getFollowData';
 import useFollowModalStore from '@/app/store/useFollowModal';
+import useGetUserData from '@/app/(afterLogin)/users/[userId]/_hook/useGetUserData';
+import useGetFollowData from '@/app/(afterLogin)/users/[userId]/_hook/useGetFollowData';
 
 interface UserProfileProps {
   userId: string;
@@ -18,29 +16,8 @@ interface UserProfileProps {
 
 const UserProfile = ({ userId }: UserProfileProps) => {
   const { onOpen, onSetUserId } = useFollowModalStore();
-  const { data: userData, error: userError } = useQuery<
-    IUserData | null,
-    Object,
-    IUserData,
-    [_1: string, _2: string]
-  >({
-    queryKey: ['users', userId],
-    queryFn: getUser,
-    staleTime: 60 * 1000,
-    gcTime: 300 * 1000,
-  });
-
-  const { data: followData } = useQuery<
-    IFollowData | null,
-    Object,
-    IFollowData,
-    [_1: string, _2: string]
-  >({
-    queryKey: ['follow', userId],
-    queryFn: getFollowData,
-    staleTime: 60 * 1000,
-    gcTime: 300 * 1000,
-  });
+  const { data: userData, error: userError } = useGetUserData({ userId });
+  const { data: followData } = useGetFollowData({ userId });
 
   const onOpenFollowModal = () => {
     onSetUserId(userId);

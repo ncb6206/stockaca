@@ -30,6 +30,7 @@ export const usePostStore = create<PostState>(set => ({
     set({
       mode: 'new',
       data: null,
+      parentPostId: '',
     });
   },
 }));

@@ -1,12 +1,17 @@
 import { ReactNode } from 'react';
+import dynamic from 'next/dynamic';
 
 import RedirectToLogin from '@/app/(afterLogin)/_component/RedirectToLogin';
 import NavigationBar from '@/app/(afterLogin)/_component/NavigationBar';
 import RQProvider from '@/app/(afterLogin)/_component/RQProvider';
 import Header from '@/app/(afterLogin)/_component/Header';
-import FollowModal from '@/app/(afterLogin)/users/[userId]/_component/FollowModal';
 
 type Props = { children: ReactNode };
+
+const FollowModal = dynamic(
+  () => import('@/app/(afterLogin)/users/[userId]/_component/FollowModal'),
+  { ssr: false },
+);
 
 const AfterLoginLayout = ({ children }: Props) => {
   return (

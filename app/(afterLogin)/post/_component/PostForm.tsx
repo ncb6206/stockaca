@@ -1,73 +1,33 @@
 'use client';
 
 import Image from 'next/image';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
-import toast from 'react-hot-toast';
 import TextareaAutosize from 'react-textarea-autosize';
 import { AiOutlinePicture } from 'react-icons/ai';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import useOnAuth from '@/app/_lib/useOnAuth';
 import { Avatar } from '@/components/ui/avatar';
 import SubmitButton from '@/components/ui/SubmitButton';
-import { PreviewImage } from '@/app/(beforeLogin)/signup/_lib/PreviewImage';
-import { writePost } from '@/app/(afterLogin)/home/_lib/writePost';
-import { IPostInputs } from '@/app/types/post';
-import { usePostStore } from '@/app/store/usePost';
+import usePostForm from '../_hook/usePostForm';
 
 const PostForm = () => {
-  const queryClient = useQueryClient();
-  const router = useRouter();
   const {
-    register,
     handleSubmit,
-    watch,
-    formState: { errors, isSubmitting },
-  } = useForm<IPostInputs>({ mode: 'onSubmit' });
-  const { user } = useOnAuth();
-  const { mode, parentPostId, reset } = usePostStore();
-  const watchImage = watch('photoUrl');
-  const previewImage = PreviewImage({ watchImage });
-
-  const writeFeed = useMutation({
-    mutationFn: (data: IPostInputs) => writePost({ user, data, parentPostId }),
-    onSuccess: () => {
-      if (parentPostId) {
-        queryClient.invalidateQueries({
-          queryKey: ['post', parentPostId, 'comments'],
-        });
-        queryClient.invalidateQueries({
-          queryKey: [user?.displayName, 'post', parentPostId],
-        });
-        router.back();
-      } else {
-        queryClient.invalidateQueries({ queryKey: ['posts'] });
-        router.replace('/home');
-      }
-      toast.success('게시물이 작성되었습니다!');
-    },
-    onError: error => {
-      console.error('Error writing post:', error);
-      toast.error('게시물 작성 실패');
-    },
-    onSettled: () => {
-      reset();
-    },
-  });
-
-  const onSubmit: SubmitHandler<IPostInputs> = data => {
-    writeFeed.mutate(data);
-  };
+    onSubmit,
+    mode,
+    user,
+    register,
+    errors,
+    previewImage,
+    isSubmitting,
+  } = usePostForm();
 
   return (
-    <div className="relative flex h-full max-h-dvh w-full flex-col ">
+    <div className="relative flex h-dvh max-h-dvh w-full flex-col ">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full space-y-6 overflow-x-auto p-6"
+        className="relative w-full space-y-6 overflow-x-auto"
       >
         {mode === 'comment' && <p className="font-bold">답글 작성</p>}
-        <div className="flex flex-row gap-4">
+        <div className="flex flex-row gap-4 p-6">
           <Avatar className="h-16 w-16">
             {user?.photoURL && (
               <Image
@@ -123,11 +83,11 @@ const PostForm = () => {
             </div>
           </div>
         </div>
-        <div className="fixed bottom-0 left-0 z-30 flex h-16 w-full items-center justify-end bg-background p-4 sm:max-w-screen-sm">
+        <div className="fixed bottom-0 z-30 flex h-16 w-full max-w-screen-sm items-center justify-end bg-background">
           <SubmitButton
             isSubmitting={isSubmitting}
             label="게시"
-            className="rounded-3xl text-base font-bold"
+            className="mr-3 rounded-3xl text-base font-bold"
           />
         </div>
       </form>
