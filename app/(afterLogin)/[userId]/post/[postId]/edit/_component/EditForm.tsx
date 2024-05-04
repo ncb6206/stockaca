@@ -1,98 +1,46 @@
 'use client';
 
 import Image from 'next/image';
-import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import toast from 'react-hot-toast';
 import TextareaAutosize from 'react-textarea-autosize';
 import { AiOutlinePicture } from 'react-icons/ai';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import useOnAuth from '@/app/_lib/useOnAuth';
 import { Avatar } from '@/components/ui/avatar';
 import SubmitButton from '@/components/ui/SubmitButton';
-import { PreviewImage } from '@/app/(beforeLogin)/signup/_lib/PreviewImage';
-import { updatePost } from '@/app/(afterLogin)/home/_lib/updatePost';
-import { IPostInputs } from '@/app/types/post';
-import { getPost } from '@/app/(afterLogin)/[userId]/post/[postId]/_lib/getPost';
-import { useEffect } from 'react';
-import { usePostStore } from '@/app/store/usePost';
+import useEditForm from '@/app/(afterLogin)/[userId]/post/[postId]/edit/_hook/useEditForm';
 
-interface EditFormProps {
+export interface EditFormProps {
   userId: string;
   postId: string;
 }
 
 const EditForm = ({ userId, postId }: EditFormProps) => {
-  const queryClient = useQueryClient();
   const router = useRouter();
-  const { reset, parentPostId, mode } = usePostStore();
-  const { data: initialPost } = useQuery({
-    queryKey: [userId, 'post', postId],
-    queryFn: getPost,
-    staleTime: 60 * 1000,
-    gcTime: 300 * 1000,
-    enabled: !!userId && !!postId,
-  });
-
-  console.log(parentPostId, mode);
-
   const {
+    onSubmit,
     register,
     handleSubmit,
-    watch,
-    setValue,
-    formState: { errors, isSubmitting },
-  } = useForm<IPostInputs>({ mode: 'onSubmit' });
-
-  useEffect(() => {
-    if (initialPost) {
-      setValue('content', initialPost.content);
-    }
-  }, [initialPost, setValue]);
-
-  const { user, loading } = useOnAuth();
-  const watchImage = watch('photoUrl');
-  const previewImage = PreviewImage({ watchImage });
-
-  const updateFeed = useMutation({
-    mutationFn: (data: IPostInputs) => updatePost({ user, data, postId }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['posts'] });
-      queryClient.invalidateQueries({ queryKey: [userId, 'post', postId] });
-      if (parentPostId) {
-        queryClient.invalidateQueries({
-          queryKey: ['post', parentPostId, 'comments'],
-        });
-      }
-      router.back();
-      toast.success('게시물이 수정되었습니다!');
-    },
-    onError: error => {
-      console.error('Error editing post:', error);
-      toast.error('게시물 수정 실패');
-    },
-    onSettled: () => {
-      reset();
-    },
-  });
-
-  const onSubmit: SubmitHandler<IPostInputs> = data => {
-    updateFeed.mutate(data);
-  };
+    previewImage,
+    user,
+    loading,
+    errors,
+    isSubmitting,
+    mode,
+    initialPost,
+  } = useEditForm({ userId, postId });
 
   if (!loading && user?.displayName !== userId) {
     router.replace('/home');
   }
 
   return (
-    <div className="relative flex h-full max-h-dvh w-full flex-col ">
+    <div className="relative flex h-dvh max-h-dvh w-full flex-col ">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full space-y-6 overflow-x-auto p-6"
+        className="relative w-full space-y-6 overflow-x-auto"
       >
         {mode === 'comment' && <p className="font-bold">답글 수정</p>}
-        <div className="flex flex-row gap-4">
+        <div className="flex flex-row gap-4 p-4">
           <Avatar className="h-16 w-16">
             {user?.photoURL && (
               <Image
@@ -156,11 +104,11 @@ const EditForm = ({ userId, postId }: EditFormProps) => {
             </div>
           </div>
         </div>
-        <div className="fixed bottom-0 left-0 z-30 flex h-16 w-full items-center justify-end bg-background p-4 sm:max-w-screen-sm">
+        <div className="fixed bottom-0 z-30 flex h-16 w-full max-w-screen-sm items-center justify-end bg-background">
           <SubmitButton
             isSubmitting={isSubmitting}
             label="게시"
-            className="rounded-3xl text-base font-bold"
+            className="mr-3 rounded-3xl text-base font-bold"
           />
         </div>
       </form>
