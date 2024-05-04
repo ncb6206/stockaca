@@ -7,3 +7,7 @@ export interface IUserData {
   createdAt: number;
   updatedAt: number;
 }
+
+export interface IUserId {
+  userId: string;
+}
