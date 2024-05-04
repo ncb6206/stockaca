@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
 
 import {
   Dialog,
@@ -10,28 +9,15 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import useFollowModalStore from '@/app/store/useFollowModal';
-import { getFollowData } from '@/app/(afterLogin)/users/[userId]/_lib/getFollowData';
-import { IFollowData } from '@/app/types/follow';
 import FollowCard from './FollowCard';
+import useGetFollowData from '../_hook/useGetFollowData';
 
 type selectedType = 'follower' | 'following';
 
 const FollowModal = () => {
   const { isOpen, onChange, userId } = useFollowModalStore();
+  const { data: followData } = useGetFollowData({ userId });
   const [selectedTab, setSelectedTab] = useState<selectedType>('follower');
-
-  const { data: followData } = useQuery<
-    IFollowData | null,
-    Object,
-    IFollowData,
-    [_1: string, _2: string]
-  >({
-    queryKey: ['follow', userId],
-    queryFn: getFollowData,
-    staleTime: 60 * 1000,
-    gcTime: 300 * 1000,
-    enabled: !!userId,
-  });
 
   return (
     <Dialog open={isOpen} onOpenChange={onChange}>
