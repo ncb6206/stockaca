@@ -9,6 +9,7 @@ import { IFollowData } from '@/app/types/follow';
 import useFollowModalStore from '@/app/store/useFollowModal';
 import useGetUserData from '@/app/(afterLogin)/users/[userId]/_hook/useGetUserData';
 import useGetFollowData from '@/app/(afterLogin)/users/[userId]/_hook/useGetFollowData';
+import MessageButton from '@/app/(afterLogin)/users/[userId]/_component/MessageButton';
 
 interface UserProfileProps {
   userId: string;
@@ -73,6 +74,7 @@ const UserProfile = ({ userId }: UserProfileProps) => {
         </div>
         <div className="flex-1" />
         <div className="flex gap-2">
+          <MessageButton userId={userId} />
           <FollowButton
             userId={userId}
             followData={followData as IFollowData}

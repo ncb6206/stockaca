@@ -18,7 +18,7 @@ const AfterLoginLayout = ({ children }: Props) => {
     <RQProvider>
       <Header />
       <RedirectToLogin />
-      <div className="relative mb-16 mt-16 flex h-full w-full max-w-screen-sm flex-col items-center justify-center bg-background">
+      <div className="relative my-16 flex h-full w-full max-w-screen-sm flex-col items-center justify-center bg-background">
         {children}
       </div>
       <NavigationBar />

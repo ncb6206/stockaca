@@ -1,5 +1,11 @@
+import MessageRoomList from '@/app/(afterLogin)/messages/_component/MessageRoomList';
+
 const MessagePage = () => {
-  return <div>메세지페이지 입니다</div>;
+  return (
+    <>
+      <MessageRoomList />
+    </>
+  );
 };
 
 export default MessagePage;
