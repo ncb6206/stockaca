@@ -7,9 +7,7 @@ const Header = () => {
   const pathname = usePathname();
 
   const hiddenBackButtonRoutes = ['/search', '/home', '/messages'];
-  const hiddenBackButton = hiddenBackButtonRoutes.some(path =>
-    pathname.startsWith(path),
-  );
+  const hiddenBackButton = hiddenBackButtonRoutes.includes(pathname);
 
   return (
     <header className="fixed z-10 flex h-16 w-full max-w-screen-sm items-center bg-background px-4">
