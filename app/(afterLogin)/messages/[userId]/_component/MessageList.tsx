@@ -3,9 +3,10 @@
 import useOnAuth from '@/app/_lib/useOnAuth';
 import { IUserId } from '@/app/types/user';
 import useRoomId from '@/app/(afterLogin)/messages/[userId]/_hook/useRoomId';
-import useMessages from '@/app/(afterLogin)/messages/_hook/useMessages';
 import { IMessageList } from '@/app/types/message';
 import { formatDateTime } from '@/app/_lib/formatDateTime';
+import { useMessageList } from '@/app/(afterLogin)/messages/[userId]/_hook/useMessageList';
+import { useEndScroll } from '@/app/(afterLogin)/messages/[userId]/_hook/useEndScroll';
 
 const MessageList = ({ userId }: IUserId) => {
   const { user } = useOnAuth();
@@ -13,7 +14,8 @@ const MessageList = ({ userId }: IUserId) => {
     senderId: user?.displayName as string,
     receiverId: userId,
   });
-  const { data: messages } = useMessages({ roomId: roomId as string });
+  const { messages } = useMessageList({ roomId: roomId as string | undefined });
+  const { messagesEndRef } = useEndScroll(messages);
 
   if (loading) {
     return <div className="flex-1">Loading...</div>;
@@ -48,6 +50,7 @@ const MessageList = ({ userId }: IUserId) => {
           );
         }
       })}
+      <div ref={messagesEndRef} />
     </div>
   );
 };
