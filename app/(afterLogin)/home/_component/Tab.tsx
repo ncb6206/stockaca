@@ -1,10 +1,9 @@
 'use client';
 
-import { useContext } from 'react';
-import { TabContext } from '@/app/(afterLogin)/home/_component/TabProvider';
+import { useTabStore } from '@/app/store/useTab';
 
 const Tab = () => {
-  const { tab, setTab } = useContext(TabContext);
+  const { tab, setTab } = useTabStore();
 
   const onClickMain = () => {
     setTab('main');

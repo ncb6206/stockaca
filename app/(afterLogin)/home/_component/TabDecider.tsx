@@ -1,12 +1,11 @@
 'use client';
 
-import { useContext } from 'react';
-import { TabContext } from '@/app/(afterLogin)/home/_component/TabProvider';
 import PostList from '@/app/(afterLogin)/home/_component/PostList';
 import FollowPostList from '@/app/(afterLogin)/home/_component/FollowPostList';
+import { useTabStore } from '@/app/store/useTab';
 
 const TabDecider = () => {
-  const { tab } = useContext(TabContext);
+  const { tab } = useTabStore();
 
   if (tab === 'main') {
     return <PostList />;
