@@ -7,7 +7,11 @@ export interface IPostData {
   photoUrl: string[];
   updatedAt: number;
   createdAt: number;
-  hashedUserId: number;
+  hashedUserId: string;
+}
+
+export interface IPostId {
+  postId: string;
 }
 
 export interface IPostListData {
