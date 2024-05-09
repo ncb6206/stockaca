@@ -1,38 +1,65 @@
 import { MouseEvent, useState, useEffect } from 'react';
-import { likePost } from '../_lib/likePost';
-import { unLikePost } from '../_lib/unLikePost';
-import useLike from './useLike';
+import { likePost } from '@/app/(afterLogin)/home/_lib/likePost';
+import { unLikePost } from '@/app/(afterLogin)/home/_lib/unLikePost';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { getLike } from '../_lib/getLike';
 
 interface IUseToggleLike {
   postId: string;
   userId?: string;
-  likeCount: number;
 }
 
-const useToggleLike = ({ postId, userId, likeCount }: IUseToggleLike) => {
-  const { data: isLike } = useLike({ postId, userId });
-  const [count, setCount] = useState(likeCount);
+const useToggleLike = ({ postId, userId }: IUseToggleLike) => {
+  const queryClient = useQueryClient();
   const [liked, setLiked] = useState(false);
 
+  const mutationLike = useMutation({
+    mutationFn: () => likePost({ userId, postId }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
+      queryClient.invalidateQueries({ queryKey: ['post'] });
+      queryClient.invalidateQueries({ queryKey: ['like', userId] });
+    },
+    onError: error => {
+      console.error('Error like post:', error);
+    },
+  });
+
+  const mutationUnLike = useMutation({
+    mutationFn: () => unLikePost({ userId, postId }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
+      queryClient.invalidateQueries({ queryKey: ['post'] });
+      queryClient.invalidateQueries({ queryKey: ['like', userId] });
+    },
+    onError: error => {
+      console.error('Error unlike post:', error);
+    },
+  });
+
   useEffect(() => {
-    if (isLike) {
-      setLiked(true);
-    }
-  }, [isLike]);
+    const checkLiked = async () => {
+      if (userId && postId) {
+        const likeData = await getLike({ userId, postId });
+        setLiked(!!likeData);
+      }
+    };
+
+    checkLiked();
+  }, [postId, userId]);
 
   const onToggleLike = (event: MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
     setLiked(prev => !prev);
+
     if (liked) {
-      unLikePost({ userId, postId });
-      setCount(prev => prev - 1);
+      mutationUnLike.mutate();
     } else {
-      likePost({ userId, postId });
-      setCount(prev => prev + 1);
+      mutationLike.mutate();
     }
   };
 
-  return { onToggleLike, liked, count };
+  return { onToggleLike, liked };
 };
 
 export default useToggleLike;

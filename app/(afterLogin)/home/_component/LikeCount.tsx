@@ -8,10 +8,9 @@ import useToggleLike from '@/app/(afterLogin)/home/_hook/useToggleLike';
 
 const LikeCount = ({ postId, post }: IPostListData) => {
   const { user } = useOnAuth();
-  const { onToggleLike, liked, count } = useToggleLike({
+  const { onToggleLike, liked } = useToggleLike({
     postId,
-    userId: user?.uid,
-    likeCount: post.likeCount,
+    userId: user?.displayName as string,
   });
 
   return (
@@ -25,7 +24,7 @@ const LikeCount = ({ postId, post }: IPostListData) => {
         ) : (
           <IoHeartOutline className="text-xl" />
         )}
-        <p>{count}</p>
+        <p>{post.likeCount}</p>
       </div>
     </div>
   );
