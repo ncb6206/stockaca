@@ -17,7 +17,7 @@ const useEditForm = ({ userId, postId }: EditFormProps) => {
   const queryClient = useQueryClient();
   const { user, loading } = useOnAuth();
   const { reset, parentPostId, mode } = usePostStore();
-  const { data: initialPost } = useGetSinglePost({ userId, postId });
+  const { data: initialPost } = useGetSinglePost({ postId });
 
   const {
     register,
@@ -40,7 +40,7 @@ const useEditForm = ({ userId, postId }: EditFormProps) => {
     mutationFn: (data: IPostInputs) => updatePost({ user, data, postId }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['posts'] });
-      queryClient.invalidateQueries({ queryKey: [userId, 'post', postId] });
+      queryClient.invalidateQueries({ queryKey: ['post', postId] });
       if (parentPostId) {
         queryClient.invalidateQueries({
           queryKey: ['post', parentPostId, 'comments'],

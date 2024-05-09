@@ -1,23 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { IPostListData } from '@/app/types/post';
 import { getFollowingPostList } from '@/app/(afterLogin)/home/_lib/getFollowingPostList';
-import { User } from 'firebase/auth';
+import { IUserId } from '@/app/types/user';
 
-type IUseFollowPostList = { user: User | null };
-
-const useFollowPostList = ({ user }: IUseFollowPostList) => {
-  const { data, isLoading } = useQuery<
-    IPostListData[] | null,
-    Object,
-    IPostListData[],
-    [_1: string, _2: string, _3: string]
-  >({
-    queryKey: ['post', user?.displayName as string, 'following'],
-    queryFn: getFollowingPostList,
+const useFollowPostList = ({ userId }: IUserId) => {
+  const { data, isLoading } = useQuery({
+    queryKey: ['post', userId, 'following'],
+    queryFn: () => getFollowingPostList({ userId }),
     staleTime: 60 * 1000,
     gcTime: 300 * 1000,
-    enabled: !!user?.displayName,
+    enabled: !!userId,
   });
 
   return { isLoading, data };

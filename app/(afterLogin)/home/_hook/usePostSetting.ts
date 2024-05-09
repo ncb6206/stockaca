@@ -23,7 +23,7 @@ const usePostSetting = ({ userId, postId, parentPostId }: IUsePostSetting) => {
       queryClient.invalidateQueries({ queryKey: ['posts'] });
       if (parentPostId) {
         queryClient.invalidateQueries({
-          queryKey: ['post', parentPostId, 'comments'],
+          queryKey: ['post', parentPostId],
         });
       }
       toast.success('삭제되었습니다!');

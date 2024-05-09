@@ -1,23 +1,13 @@
-import { QueryFunction } from '@tanstack/react-query';
 import { getDocs, query, where, orderBy } from 'firebase/firestore';
 import { FEED_COLLECTION } from '@/app/firebase';
 
-import { IPostData, IPostListData } from '@/app/types/post';
+import { IPostData } from '@/app/types/post';
 import { getFollowData } from '@/app/(afterLogin)/users/[userId]/_lib/getFollowData';
+import { IUserId } from '@/app/types/user';
 
-export const getFollowingPostList: QueryFunction<
-  IPostListData[] | null,
-  [_1: string, _2: string, _3: string]
-> = async ({ queryKey, signal, meta }) => {
-  // eslint-disable-next-line no-unused-vars
-  const [_1, userId, _3] = queryKey;
-
+export const getFollowingPostList = async ({ userId }: IUserId) => {
   try {
-    const followData = await getFollowData({
-      queryKey: ['follow', userId],
-      signal,
-      meta,
-    });
+    const followData = await getFollowData({ userId });
     const followingUserIds = followData?.followingUserId || [];
 
     const feedQuery = query(

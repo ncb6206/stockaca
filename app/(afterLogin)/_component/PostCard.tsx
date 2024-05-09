@@ -4,10 +4,8 @@ import Link from 'next/link';
 import { MouseEvent, MouseEventHandler } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { v4 as uuidv4 } from 'uuid';
 
 import { IPostCard } from '@/app/types/post';
-import { hashUid } from '@/app/_lib/hashUid';
 import { Avatar } from '@/components/ui/avatar';
 import LikeCount from '@/app/(afterLogin)/home/_component/LikeCount';
 import { formatDateTime } from '@/app/_lib/formatDateTime';
@@ -18,13 +16,12 @@ import useGetUserData from '@/app/(afterLogin)/users/[userId]/_hook/useGetUserDa
 
 const PostCard = ({ postId, post, parentPostUserId }: IPostCard) => {
   const router = useRouter();
-  const hashedUid = hashUid({ uid: post.userId });
   const { user } = useOnAuth();
-  const { data: userData } = useGetUserData({ userId: hashedUid });
+  const { data: userData } = useGetUserData({ userId: post.hashedUserId });
 
   const goPost = (event: MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
-    router.push(`/${hashedUid}/post/${postId}`);
+    router.push(`/${post.hashedUserId}/post/${postId}`);
   };
 
   const stopPropagation: MouseEventHandler<HTMLAnchorElement> = e => {
@@ -49,7 +46,7 @@ const PostCard = ({ postId, post, parentPostUserId }: IPostCard) => {
         <div className="flex w-full flex-col">
           <div className="flex flex-row gap-2">
             <Link
-              href={`/users/${hashedUid}`}
+              href={`/users/${post.hashedUserId}`}
               className="hover:underline"
               onClick={stopPropagation}
             >
@@ -63,7 +60,7 @@ const PostCard = ({ postId, post, parentPostUserId }: IPostCard) => {
           {post.photoUrl &&
             post.photoUrl?.map((url: string) => (
               <Image
-                key={uuidv4()}
+                key={url}
                 src={url}
                 alt="게시물 사진"
                 width={500}

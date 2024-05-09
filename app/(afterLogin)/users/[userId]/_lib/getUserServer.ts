@@ -2,14 +2,9 @@ import { USER_COLLECTION } from '@/app/firebase';
 import { getDocs, query } from 'firebase/firestore';
 
 import { hashUid } from '@/app/_lib/hashUid';
+import { IUserId } from '@/app/types/user';
 
-interface getUserProps {
-  queryKey: [string, string];
-}
-
-export const getUserServer = async ({ queryKey }: getUserProps) => {
-  // eslint-disable-next-line no-unused-vars
-  const [_1, userId] = queryKey;
+export const getUserServer = async ({ userId }: IUserId) => {
   try {
     const q = query(USER_COLLECTION);
     const querySnapshot = await getDocs(q);

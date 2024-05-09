@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { IPostSetting } from '@/app/types/post';
-import usePostSetting from '../_hook/usePostSetting';
+import usePostSetting from '@/app/(afterLogin)/home/_hook/usePostSetting';
 
 const PostSetting = ({
   userId,

@@ -17,6 +17,7 @@ const RQProvider = ({ children }: Props) => {
         refetchOnReconnect: false,
         retry: false,
         staleTime: 60 * 1000,
+        gcTime: 300 * 1000,
       },
     },
   });

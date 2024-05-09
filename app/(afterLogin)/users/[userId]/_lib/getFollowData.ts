@@ -1,15 +1,9 @@
 import { getDocs, query, where } from 'firebase/firestore';
-import { QueryFunction } from '@tanstack/react-query';
 
 import { FOLLOW_COLLECTION } from '@/app/firebase';
-import { IFollowData } from '@/app/types/follow';
+import { IUserId } from '@/app/types/user';
 
-export const getFollowData: QueryFunction<
-  IFollowData | null,
-  [_1: string, _2: string]
-> = async ({ queryKey }) => {
-  // eslint-disable-next-line no-unused-vars
-  const [_1, userId] = queryKey;
+export const getFollowData = async ({ userId }: IUserId) => {
   try {
     const followingQuery = query(
       FOLLOW_COLLECTION,

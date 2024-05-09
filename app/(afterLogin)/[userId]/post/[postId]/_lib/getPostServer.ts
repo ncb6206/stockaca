@@ -1,13 +1,8 @@
 import { FEED_COLLECTION } from '@/app/firebase';
+import { IPostId } from '@/app/types/post';
 import { doc, getDoc } from 'firebase/firestore';
 
-interface getPostProps {
-  queryKey: [string, string, string];
-}
-
-export const getPostServer = async ({ queryKey }: getPostProps) => {
-  // eslint-disable-next-line no-unused-vars
-  const [userId, _1, postId] = queryKey;
+export const getPostServer = async ({ postId }: IPostId) => {
   try {
     const q = doc(FEED_COLLECTION, postId);
     const post = await getDoc(q);

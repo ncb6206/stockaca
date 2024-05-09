@@ -30,8 +30,6 @@ const usePostList = () => {
       if (querySnapshots.size < 10) return undefined;
       else return querySnapshots.docs[querySnapshots.docs.length - 1];
     },
-    staleTime: 60 * 1000,
-    gcTime: 300 * 1000,
   });
 
   const { ref, inView } = useInView({

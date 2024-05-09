@@ -31,7 +31,7 @@ const usePostForm = () => {
           queryKey: ['post', parentPostId, 'comments'],
         });
         queryClient.invalidateQueries({
-          queryKey: [user?.displayName, 'post', parentPostId],
+          queryKey: ['post', parentPostId],
         });
         router.back();
       } else {

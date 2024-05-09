@@ -4,12 +4,14 @@ import { Suspense } from 'react';
 
 import useOnAuth from '@/app/_lib/useOnAuth';
 import Loading from '@/app/(afterLogin)/home/loading';
-import PostCard from '../../_component/PostCard';
-import useFollowPostList from '../_hook/useFollowPostList';
+import PostCard from '@/app/(afterLogin)/_component/PostCard';
+import useFollowPostList from '@/app/(afterLogin)/home/_hook/useFollowPostList';
 
 const FollowPostList = () => {
   const { user } = useOnAuth();
-  const { data: followPostData, isLoading } = useFollowPostList({ user });
+  const { data: followPostData, isLoading } = useFollowPostList({
+    userId: user?.displayName as string,
+  });
 
   if (!isLoading && !followPostData) {
     return <div>팔로잉 중인 유저의 포스트가 없습니다...</div>;

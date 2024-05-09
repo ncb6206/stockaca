@@ -12,11 +12,11 @@ import {
   getCommentListNext,
   getCommentListFirst,
 } from '@/app/(afterLogin)/[userId]/post/[postId]/_lib/getCommentList';
-import { IPostCommentProps } from '@/app/types/post';
+import { IPostId } from '@/app/types/post';
 import useGetSinglePost from './useGetSinglePost';
 
-const useGetCommentList = ({ userId, postId }: IPostCommentProps) => {
-  const { data: post } = useGetSinglePost({ userId, postId });
+const useGetCommentList = ({ postId }: IPostId) => {
+  const { data: post } = useGetSinglePost({ postId });
 
   const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery<
     QuerySnapshot<DocumentData, DocumentData>,
@@ -36,8 +36,6 @@ const useGetCommentList = ({ userId, postId }: IPostCommentProps) => {
       if (querySnapshots.size < 20) return undefined;
       else return querySnapshots.docs[querySnapshots.docs.length - 1];
     },
-    staleTime: 60 * 1000,
-    gcTime: 300 * 1000,
   });
 
   const { ref, inView } = useInView({

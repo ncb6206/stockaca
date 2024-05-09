@@ -17,7 +17,7 @@ const UserPage = async ({ params }: UserPageProps) => {
 
   await queryClient.prefetchQuery({
     queryKey: ['users', userId],
-    queryFn: getUserServer,
+    queryFn: () => getUserServer({ userId }),
   });
 
   const dehydratedState = dehydrate(queryClient);
