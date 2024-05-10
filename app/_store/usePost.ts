@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { IPostData } from '../types/post';
+import { IPostData } from '../_types/post';
 
 interface PostState {
   mode: 'new' | 'comment';
