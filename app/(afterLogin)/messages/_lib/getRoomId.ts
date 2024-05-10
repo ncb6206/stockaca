@@ -1,7 +1,7 @@
 import { getDocs, query, where } from 'firebase/firestore';
 
 import { CHATROOM_COLLECTION } from '@/app/firebase';
-import { IGetRoomId } from '@/app/types/message';
+import { IGetRoomId } from '@/app/_types/message';
 
 export const getRoomId = async ({ senderId, receiverId }: IGetRoomId) => {
   try {

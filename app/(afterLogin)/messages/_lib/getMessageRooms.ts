@@ -1,7 +1,7 @@
 import { getDocs, query, where } from 'firebase/firestore';
 
 import { CHATROOM_COLLECTION } from '@/app/firebase';
-import { IUserId } from '@/app/types/user';
+import { IUserId } from '@/app/_types/user';
 
 export const getMessageRooms = async ({ userId }: IUserId) => {
   try {

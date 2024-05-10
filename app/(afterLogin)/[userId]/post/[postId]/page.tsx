@@ -4,10 +4,10 @@ import {
   dehydrate,
 } from '@tanstack/react-query';
 
-import { getPostServer } from '@/app/(afterLogin)/[userId]/post/[postId]/_lib/getPostServer';
-import SinglePost from '@/app/(afterLogin)/[userId]/post/[postId]/_component/SinglePost';
-import CommentList from '@/app/(afterLogin)/[userId]/post/[postId]/_component/CommentList';
-import WriteComment from '@/app/(afterLogin)/[userId]/post/[postId]/_component/WriteComment';
+import { getPostServer } from '@/app/(afterLogin)/[userId]/post/[postId]/_services/getPostServer';
+import SinglePost from '@/app/(afterLogin)/[userId]/post/[postId]/_components/SinglePost';
+import CommentList from '@/app/(afterLogin)/[userId]/post/[postId]/_components/CommentList';
+import WriteComment from '@/app/(afterLogin)/[userId]/post/[postId]/_components/WriteComment';
 
 interface PostPageProps {
   params: { userId: string; postId: string };

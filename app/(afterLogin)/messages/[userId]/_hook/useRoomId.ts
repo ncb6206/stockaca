@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { IGetRoomId } from '@/app/types/message';
+import { IGetRoomId } from '@/app/_types/message';
 import { getRoomId } from '@/app/(afterLogin)/messages/_lib/getRoomId';
 
 const useRoomId = ({ senderId, receiverId }: IGetRoomId) => {

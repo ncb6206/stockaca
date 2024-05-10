@@ -1,4 +1,4 @@
-import { IMessageList } from '@/app/types/message';
+import { IMessageList } from '@/app/_types/message';
 import { useEffect, useRef } from 'react';
 
 export const useEndScroll = (messages: IMessageList[]) => {

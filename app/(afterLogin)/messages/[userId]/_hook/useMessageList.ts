@@ -2,7 +2,7 @@ import { query, where, onSnapshot, orderBy } from 'firebase/firestore';
 import { useState, useEffect } from 'react';
 
 import { MESSAGE_COLLECTION } from '@/app/firebase';
-import { IMessageDetail, IMessageList, IMessages } from '@/app/types/message';
+import { IMessageDetail, IMessageList, IMessages } from '@/app/_types/message';
 
 export const useMessageList = ({ roomId }: IMessages) => {
   const [messages, setMessages] = useState<IMessageList[]>([]);

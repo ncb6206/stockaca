@@ -1,10 +1,10 @@
 'use client';
 
-import useOnAuth from '@/app/_lib/useOnAuth';
-import { IUserId } from '@/app/types/user';
+import useOnAuth from '@/app/_hooks/useOnAuth';
+import { IUserId } from '@/app/_types/user';
 import useRoomId from '@/app/(afterLogin)/messages/[userId]/_hook/useRoomId';
-import { IMessageList } from '@/app/types/message';
-import { formatDateTime } from '@/app/_lib/formatDateTime';
+import { IMessageList } from '@/app/_types/message';
+import { formatDateTime } from '@/app/_utils/formatDateTime';
 import { useMessageList } from '@/app/(afterLogin)/messages/[userId]/_hook/useMessageList';
 import { useEndScroll } from '@/app/(afterLogin)/messages/[userId]/_hook/useEndScroll';
 

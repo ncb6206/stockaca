@@ -4,8 +4,8 @@ import {
   dehydrate,
 } from '@tanstack/react-query';
 
-import UserProfile from '@/app/(afterLogin)/users/[userId]/_component/UserProfile';
-import { getUserServer } from '@/app/(afterLogin)/users/[userId]/_lib/getUserServer';
+import UserProfile from '@/app/(afterLogin)/users/[userId]/_components/UserProfile';
+import { getUserServer } from '@/app/(afterLogin)/users/[userId]/_services/getUserServer';
 
 interface UserPageProps {
   params: { userId: string };

@@ -2,8 +2,8 @@
 
 import Image from 'next/image';
 
-import useGetUserData from '@/app/(afterLogin)/users/[userId]/_hook/useGetUserData';
-import { IUserId } from '@/app/types/user';
+import useGetUserData from '@/app/(afterLogin)/users/[userId]/_hooks/useGetUserData';
+import { IUserId } from '@/app/_types/user';
 import { Avatar } from '@/components/ui/avatar';
 
 const UserInfo = ({ userId }: IUserId) => {

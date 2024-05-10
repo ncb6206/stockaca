@@ -3,8 +3,8 @@ import { KeyboardEvent } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import { IMessage } from '@/app/types/message';
-import useOnAuth from '@/app/_lib/useOnAuth';
+import { IMessage } from '@/app/_types/message';
+import useOnAuth from '@/app/_hooks/useOnAuth';
 import { sendMessage } from '@/app/(afterLogin)/messages/[userId]/_lib/sendMessage';
 
 interface IUseMessageForm {
