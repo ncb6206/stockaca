@@ -3,7 +3,7 @@
 import { IoSend } from 'react-icons/io5';
 import TextareaAutosize from 'react-textarea-autosize';
 
-import useMessageForm from '@/app/(afterLogin)/messages/[userId]/_hook/useMessageForm';
+import useMessageForm from '@/app/(afterLogin)/messages/[userId]/_hooks/useMessageForm';
 
 interface IMessageForm {
   userId: string;

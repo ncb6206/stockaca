@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { IUserId } from '@/app/_types/user';
-import { getMessageRooms } from '@/app/(afterLogin)/messages/_lib/getMessageRooms';
+import { getMessageRooms } from '@/app/(afterLogin)/messages/_services/getMessageRooms';
 
 const useMessageRooms = ({ userId }: IUserId) => {
   const { data, isLoading, isError } = useQuery({

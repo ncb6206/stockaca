@@ -5,7 +5,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { IMessage } from '@/app/_types/message';
 import useOnAuth from '@/app/_hooks/useOnAuth';
-import { sendMessage } from '@/app/(afterLogin)/messages/[userId]/_lib/sendMessage';
+import { sendMessage } from '@/app/(afterLogin)/messages/[userId]/_services/sendMessage';
 
 interface IUseMessageForm {
   receiverId: string;

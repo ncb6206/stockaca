@@ -1,6 +1,6 @@
-import UserInfo from '@/app/(afterLogin)/messages/[userId]/_component/UserInfo';
-import MessageList from '@/app/(afterLogin)/messages/[userId]/_component/MessageList';
-import MessageForm from '@/app/(afterLogin)/messages/[userId]/_component/MessageForm';
+import UserInfo from '@/app/(afterLogin)/messages/[userId]/_components/UserInfo';
+import MessageList from '@/app/(afterLogin)/messages/[userId]/_components/MessageList';
+import MessageForm from '@/app/(afterLogin)/messages/[userId]/_components/MessageForm';
 
 interface MessageUserPageProps {
   params: { userId: string };

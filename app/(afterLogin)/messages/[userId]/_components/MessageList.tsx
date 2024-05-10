@@ -2,11 +2,11 @@
 
 import useOnAuth from '@/app/_hooks/useOnAuth';
 import { IUserId } from '@/app/_types/user';
-import useRoomId from '@/app/(afterLogin)/messages/[userId]/_hook/useRoomId';
+import useRoomId from '@/app/(afterLogin)/messages/[userId]/_hooks/useRoomId';
 import { IMessageList } from '@/app/_types/message';
 import { formatDateTime } from '@/app/_utils/formatDateTime';
-import { useMessageList } from '@/app/(afterLogin)/messages/[userId]/_hook/useMessageList';
-import { useEndScroll } from '@/app/(afterLogin)/messages/[userId]/_hook/useEndScroll';
+import { useMessageList } from '@/app/(afterLogin)/messages/[userId]/_hooks/useMessageList';
+import { useEndScroll } from '@/app/(afterLogin)/messages/[userId]/_hooks/useEndScroll';
 
 const MessageList = ({ userId }: IUserId) => {
   const { user } = useOnAuth();

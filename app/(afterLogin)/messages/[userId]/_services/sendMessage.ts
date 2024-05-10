@@ -2,7 +2,7 @@ import { addDoc } from 'firebase/firestore';
 
 import { CHATROOM_COLLECTION, MESSAGE_COLLECTION } from '@/app/firebase';
 import { ISendMessage } from '@/app/_types/message';
-import { getRoomId } from '@/app/(afterLogin)/messages/_lib/getRoomId';
+import { getRoomId } from '@/app/(afterLogin)/messages/_services/getRoomId';
 
 export const sendMessage = async ({
   senderId,
