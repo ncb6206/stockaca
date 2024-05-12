@@ -1,11 +1,11 @@
-import { useInfiniteQuery, InfiniteData } from '@tanstack/react-query';
+import { InfiniteData, useInfiniteQuery } from '@tanstack/react-query';
 import {
   QuerySnapshot,
   DocumentData,
   QueryDocumentSnapshot,
 } from 'firebase/firestore';
 import _ from 'lodash';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import {
@@ -36,13 +36,17 @@ const usePostList = () => {
     threshold: 0.5,
   });
 
-  const throttledFetchNextPage = _.throttle(fetchNextPage, 500);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const throttledFetchNextPage = useCallback(_.throttle(fetchNextPage, 500), [
+    fetchNextPage,
+  ]);
 
   useEffect(() => {
     if (inView && !isFetching && hasNextPage) {
       throttledFetchNextPage();
     }
-  }, [hasNextPage, inView, isFetching, throttledFetchNextPage]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inView]);
 
   const posts = data?.pages
     .flatMap(page => page.docs)

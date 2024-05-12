@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import _ from 'lodash';
 import { useInView } from 'react-intersection-observer';
 import { useInfiniteQuery, InfiniteData } from '@tanstack/react-query';
@@ -13,7 +13,7 @@ import {
   getCommentListFirst,
 } from '@/app/(afterLogin)/[userId]/post/[postId]/_services/getCommentList';
 import { IPostId } from '@/app/_types/post';
-import useGetSinglePost from './useGetSinglePost';
+import useGetSinglePost from '@/app/(afterLogin)/[userId]/post/[postId]/_hooks/useGetSinglePost';
 
 const useGetCommentList = ({ postId }: IPostId) => {
   const { data: post } = useGetSinglePost({ postId });
@@ -42,13 +42,17 @@ const useGetCommentList = ({ postId }: IPostId) => {
     threshold: 0.5,
   });
 
-  const throttledFetchNextPage = _.throttle(fetchNextPage, 500);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const throttledFetchNextPage = useCallback(_.throttle(fetchNextPage, 500), [
+    fetchNextPage,
+  ]);
 
   useEffect(() => {
     if (inView && !isFetching && hasNextPage) {
       throttledFetchNextPage();
     }
-  }, [hasNextPage, inView, isFetching, throttledFetchNextPage]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inView]);
 
   const comments = data?.pages
     .flatMap(page => page.docs)
