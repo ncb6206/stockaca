@@ -1,7 +1,5 @@
 'use client';
 
-import { Suspense } from 'react';
-
 import PostCard from '@/app/(afterLogin)/_components/PostCard';
 import { IPostData } from '@/app/_types/post';
 import Loading from '@/app/(afterLogin)/home/loading';
@@ -12,15 +10,13 @@ const PostList = () => {
 
   return (
     <div className="flex h-full w-full flex-col">
-      <Suspense fallback={<Loading />}>
-        {posts?.map(post => (
-          <PostCard
-            key={post.postId}
-            postId={post.postId}
-            post={post.post as IPostData}
-          />
-        ))}
-      </Suspense>
+      {posts?.map(post => (
+        <PostCard
+          key={post.postId}
+          postId={post.postId}
+          post={post.post as IPostData}
+        />
+      ))}
       {hasNextPage && (
         <div ref={ref} className="flex h-16 items-center justify-center">
           <Loading />

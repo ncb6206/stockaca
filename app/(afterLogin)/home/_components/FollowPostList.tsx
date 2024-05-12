@@ -1,9 +1,6 @@
 'use client';
 
-import { Suspense } from 'react';
-
 import useOnAuth from '@/app/_hooks/useOnAuth';
-import Loading from '@/app/(afterLogin)/home/loading';
 import PostCard from '@/app/(afterLogin)/_components/PostCard';
 import useFollowPostList from '@/app/(afterLogin)/home/_hooks/useFollowPostList';
 
@@ -19,11 +16,9 @@ const FollowPostList = () => {
 
   return (
     <div className="flex h-full w-full flex-col">
-      <Suspense fallback={<Loading />}>
-        {followPostData?.map(post => (
-          <PostCard key={post.postId} postId={post.postId} post={post.post} />
-        ))}
-      </Suspense>
+      {followPostData?.map(post => (
+        <PostCard key={post.postId} postId={post.postId} post={post.post} />
+      ))}
     </div>
   );
 };
