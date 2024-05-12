@@ -4,8 +4,8 @@ import {
   dehydrate,
 } from '@tanstack/react-query';
 
-import UserProfile from '@/app/(afterLogin)/users/[userId]/_component/UserProfile';
-import { getUserServer } from '@/app/(afterLogin)/users/[userId]/_lib/getUserServer';
+import UserProfile from '@/app/(afterLogin)/users/[userId]/_components/UserProfile';
+import { getUser } from '@/app/(afterLogin)/users/[userId]/_services/getUser';
 
 interface UserPageProps {
   params: { userId: string };
@@ -17,7 +17,7 @@ const UserPage = async ({ params }: UserPageProps) => {
 
   await queryClient.prefetchQuery({
     queryKey: ['users', userId],
-    queryFn: getUserServer,
+    queryFn: () => getUser({ userId }),
   });
 
   const dehydratedState = dehydrate(queryClient);

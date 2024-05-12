@@ -4,10 +4,10 @@ import {
   dehydrate,
 } from '@tanstack/react-query';
 
-import { getPostServer } from '@/app/(afterLogin)/[userId]/post/[postId]/_lib/getPostServer';
-import SinglePost from '@/app/(afterLogin)/[userId]/post/[postId]/_component/SinglePost';
-import CommentList from '@/app/(afterLogin)/[userId]/post/[postId]/_component/CommentList';
-import WriteComment from '@/app/(afterLogin)/[userId]/post/[postId]/_component/WriteComment';
+import SinglePost from '@/app/(afterLogin)/[userId]/post/[postId]/_components/SinglePost';
+import CommentList from '@/app/(afterLogin)/[userId]/post/[postId]/_components/CommentList';
+import WriteComment from '@/app/(afterLogin)/[userId]/post/[postId]/_components/WriteComment';
+import { getPost } from '@/app/(afterLogin)/[userId]/post/[postId]/_services/getPost';
 
 interface PostPageProps {
   params: { userId: string; postId: string };
@@ -17,8 +17,8 @@ const PostPage = async ({ params }: PostPageProps) => {
   const { userId, postId } = params;
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
-    queryKey: [userId, 'post', postId],
-    queryFn: getPostServer,
+    queryKey: ['post', postId],
+    queryFn: () => getPost({ postId }),
   });
   const dehydratedState = dehydrate(queryClient);
 
@@ -26,7 +26,7 @@ const PostPage = async ({ params }: PostPageProps) => {
     <div className="flex h-full w-full flex-col">
       <div className="flex flex-grow flex-col p-4">
         <HydrationBoundary state={dehydratedState}>
-          <SinglePost userId={userId} postId={postId} />
+          <SinglePost postId={postId} />
         </HydrationBoundary>
         <WriteComment postId={postId} />
         <CommentList userId={userId} postId={postId} />

@@ -1,8 +1,7 @@
 import { Metadata } from 'next';
 
-import TabProvider from '@/app/(afterLogin)/home/_component/TabProvider';
-import Tab from '@/app/(afterLogin)/home/_component/Tab';
-import TabDecider from '@/app/(afterLogin)/home/_component/TabDecider';
+import Tab from '@/app/(afterLogin)/home/_components/Tab';
+import TabDecider from '@/app/(afterLogin)/home/_components/TabDecider';
 
 export const metadata: Metadata = {
   title: '홈 / Stockaca',
@@ -11,10 +10,10 @@ export const metadata: Metadata = {
 
 const HomePage = async () => {
   return (
-    <TabProvider>
+    <>
       <Tab />
       <TabDecider />
-    </TabProvider>
+    </>
   );
 };
 

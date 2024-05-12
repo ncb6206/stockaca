@@ -1,4 +1,4 @@
-import EditForm from '@/app/(afterLogin)/[userId]/post/[postId]/edit/_component/EditForm';
+import EditForm from '@/app/(afterLogin)/[userId]/post/[postId]/edit/_components/EditForm';
 
 interface EditPageProps {
   params: { userId: string; postId: string };

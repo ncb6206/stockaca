@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 
-import RedirectToHome from '@/app/(beforeLogin)/_component/RedirectToHome';
+import RedirectToHome from '@/app/(beforeLogin)/_components/RedirectToHome';
 
 type Props = { children: ReactNode };
 
