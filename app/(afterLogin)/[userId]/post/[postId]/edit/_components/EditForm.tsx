@@ -77,9 +77,9 @@ const EditForm = ({ userId, postId }: EditFormProps) => {
                 name="photoUrl"
                 className="hidden"
               />
-              {!previewImage && initialPost?.post.photoUrl[0] && (
+              {!previewImage && initialPost?.post?.photoUrl[0] && (
                 <Image
-                  src={initialPost?.post.photoUrl[0]}
+                  src={initialPost?.post?.photoUrl[0]}
                   alt="미리보기"
                   width={500}
                   height={500}

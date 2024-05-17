@@ -4,7 +4,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { usePreviewImage } from '@/app/_hooks/usePreviewImage';
 import { IPostId, IPostInputs } from '@/app/_types/post';
 import useGetSinglePost from '@/app/(afterLogin)/[userId]/post/[postId]/_hooks/useGetSinglePost';
-import useEditPost from './useEditPost';
+import useEditPost from '@/app/(afterLogin)/[userId]/post/[postId]/edit/_hooks/useEditPost';
 
 const useEditForm = ({ postId }: IPostId) => {
   const { postData: initialPost } = useGetSinglePost({ postId });
@@ -15,23 +15,22 @@ const useEditForm = ({ postId }: IPostId) => {
     setValue,
     formState: { errors, isSubmitting },
   } = useForm<IPostInputs>({ mode: 'onSubmit' });
-
-  useEffect(() => {
-    if (initialPost) {
-      setValue('content', initialPost.post.content);
-    }
-  }, [initialPost, setValue]);
-
   const watchImage = watch('photoUrl');
   const { previewImage } = usePreviewImage({ watchImage });
   const { updateFeed } = useEditPost({ postId });
+
+  useEffect(() => {
+    if (initialPost.post) {
+      setValue('content', initialPost.post.content);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialPost.post]);
 
   const onSubmit: SubmitHandler<IPostInputs> = async data => {
     await updateFeed.mutateAsync(data);
   };
 
   return {
-    updateFeed,
     onSubmit,
     register,
     handleSubmit,
