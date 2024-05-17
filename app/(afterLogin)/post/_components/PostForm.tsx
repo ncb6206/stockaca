@@ -6,25 +6,27 @@ import { AiOutlinePicture } from 'react-icons/ai';
 
 import { Avatar } from '@/components/ui/avatar';
 import SubmitButton from '@/components/ui/SubmitButton';
-import usePostForm from '../_hooks/usePostForm';
+import usePostForm from '@/app/(afterLogin)/post/_hooks/usePostForm';
+import { usePostStore } from '@/app/_store/usePost';
+import useOnAuth from '@/app/_hooks/useOnAuth';
 
 const PostForm = () => {
   const {
     handleSubmit,
     onSubmit,
-    mode,
-    user,
     register,
     errors,
     previewImage,
     isSubmitting,
   } = usePostForm();
+  const { user } = useOnAuth();
+  const { mode } = usePostStore();
 
   return (
-    <div className="relative flex h-dvh max-h-dvh w-full flex-col ">
+    <>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="relative w-full space-y-6 overflow-x-auto"
+        className="relative flex h-dvh max-h-dvh w-full flex-col space-y-6 overflow-x-auto"
       >
         {mode === 'comment' && <p className="font-bold">답글 작성</p>}
         <div className="flex flex-row gap-4 p-6">
@@ -49,6 +51,7 @@ const PostForm = () => {
               name="content"
               minRows={3}
               maxRows={20}
+              className="p-2"
             />
             {errors.content && (
               <p className="mt-2 text-red-600">{errors.content?.message}</p>
@@ -91,7 +94,7 @@ const PostForm = () => {
           />
         </div>
       </form>
-    </div>
+    </>
   );
 };
 

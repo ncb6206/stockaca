@@ -8,6 +8,8 @@ import { AiOutlinePicture } from 'react-icons/ai';
 import { Avatar } from '@/components/ui/avatar';
 import SubmitButton from '@/components/ui/SubmitButton';
 import useEditForm from '@/app/(afterLogin)/[userId]/post/[postId]/edit/_hooks/useEditForm';
+import useOnAuth from '@/app/_hooks/useOnAuth';
+import { usePostStore } from '@/app/_store/usePost';
 
 export interface EditFormProps {
   userId: string;
@@ -16,18 +18,17 @@ export interface EditFormProps {
 
 const EditForm = ({ userId, postId }: EditFormProps) => {
   const router = useRouter();
+  const { user, loading } = useOnAuth();
+  const { mode } = usePostStore();
   const {
     onSubmit,
     register,
     handleSubmit,
     previewImage,
-    user,
-    loading,
     errors,
     isSubmitting,
-    mode,
     initialPost,
-  } = useEditForm({ userId, postId });
+  } = useEditForm({ postId });
 
   if (!loading && user?.displayName !== userId) {
     router.replace('/home');
@@ -76,9 +77,9 @@ const EditForm = ({ userId, postId }: EditFormProps) => {
                 name="photoUrl"
                 className="hidden"
               />
-              {!previewImage && initialPost?.photoUrl[0] && (
+              {!previewImage && initialPost?.post.photoUrl[0] && (
                 <Image
-                  src={initialPost?.photoUrl[0]}
+                  src={initialPost?.post.photoUrl[0]}
                   alt="미리보기"
                   width={500}
                   height={500}
