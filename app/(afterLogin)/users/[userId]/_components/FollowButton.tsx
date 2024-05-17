@@ -11,14 +11,14 @@ interface IFollowProps {
 }
 
 const FollowButton = ({ userId, followData }: IFollowProps) => {
-  const { user } = useOnAuth();
+  const { user, loading } = useOnAuth();
   const { isFollow, onUnFollow, onFollow } = useFollow({
     userId,
     user,
     followData,
   });
 
-  if (user?.displayName === userId) {
+  if (loading || user?.displayName === userId) {
     return null;
   }
 
