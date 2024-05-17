@@ -19,7 +19,8 @@ export interface IPostListData {
   post: IPostData;
 }
 
-export interface IPostCard extends IPostListData {
+export interface IPostCard {
+  postData: IPostListData;
   parentPostUserId?: string;
 }
 
