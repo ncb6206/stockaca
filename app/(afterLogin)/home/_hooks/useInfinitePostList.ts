@@ -4,16 +4,14 @@ import {
   DocumentData,
   QueryDocumentSnapshot,
 } from 'firebase/firestore';
-import _ from 'lodash';
-import { useCallback, useEffect } from 'react';
-import { useInView } from 'react-intersection-observer';
 
 import {
   getPostListNext,
   getPostListFirst,
 } from '@/app/(afterLogin)/home/_services/getPostList';
+import { IPostData } from '@/app/_types/post';
 
-const usePostList = () => {
+const useInfinitePostList = () => {
   const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery<
     QuerySnapshot<DocumentData, DocumentData>,
     Object,
@@ -32,27 +30,11 @@ const usePostList = () => {
     },
   });
 
-  const { ref, inView } = useInView({
-    threshold: 0.5,
-  });
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const throttledFetchNextPage = useCallback(_.throttle(fetchNextPage, 500), [
-    fetchNextPage,
-  ]);
-
-  useEffect(() => {
-    if (inView && !isFetching && hasNextPage) {
-      throttledFetchNextPage();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inView]);
-
   const posts = data?.pages
     .flatMap(page => page.docs)
-    .map(doc => ({ postId: doc.id, post: doc.data() }));
+    .map(doc => ({ postId: doc.id, post: doc.data() as IPostData }));
 
-  return { posts, hasNextPage, ref };
+  return { posts, hasNextPage, isFetching, fetchNextPage };
 };
 
-export default usePostList;
+export default useInfinitePostList;

@@ -2,15 +2,20 @@
 
 import Loading from '@/app/loading';
 import PostCard from '@/app/(afterLogin)/_components/PostCard';
-import { IPostCommentProps, IPostData } from '@/app/_types/post';
+import { IPostCommentProps } from '@/app/_types/post';
 import useGetCommentList from '@/app/(afterLogin)/[userId]/post/[postId]/_hooks/useGetCommentList';
+import useGetSinglePost from '@/app/(afterLogin)/[userId]/post/[postId]/_hooks/useGetSinglePost';
+import useInfiniteScroll from '@/app/_hooks/useInfiniteScroll';
 
 const CommentList = ({ userId, postId }: IPostCommentProps) => {
-  const { post, comments, hasNextPage, ref } = useGetCommentList({ postId });
+  const { postData } = useGetSinglePost({ postId });
+  const { comments, hasNextPage, fetchNextPage, isFetching } =
+    useGetCommentList({ postId });
+  const { ref } = useInfiniteScroll({ fetchNextPage, isFetching, hasNextPage });
 
-  console.log(post, comments);
+  console.log(postData, comments);
 
-  if (!post) {
+  if (!postData) {
     return null;
   }
 
@@ -18,9 +23,8 @@ const CommentList = ({ userId, postId }: IPostCommentProps) => {
     <div className="flex h-full w-full flex-col">
       {comments?.map(comment => (
         <PostCard
-          key={comment.commentId}
-          postId={comment.commentId}
-          post={comment.comment as IPostData}
+          key={comment.postId}
+          postData={comment}
           parentPostUserId={userId}
         />
       ))}

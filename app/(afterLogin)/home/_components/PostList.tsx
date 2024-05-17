@@ -1,22 +1,18 @@
 'use client';
 
 import PostCard from '@/app/(afterLogin)/_components/PostCard';
-import { IPostData } from '@/app/_types/post';
-import Loading from '@/app/(afterLogin)/home/loading';
-import usePostList from '@/app/(afterLogin)/home/_hooks/usePostList';
+import Loading from '@/app/loading';
+import useInfiniteScroll from '@/app/_hooks/useInfiniteScroll';
+import useInfinitePostList from '@/app/(afterLogin)/home/_hooks/useInfinitePostList';
 
 const PostList = () => {
-  const { posts, hasNextPage, ref } = usePostList();
+  const { posts, hasNextPage, isFetching, fetchNextPage } =
+    useInfinitePostList();
+  const { ref } = useInfiniteScroll({ isFetching, hasNextPage, fetchNextPage });
 
   return (
     <div className="flex h-full w-full flex-col">
-      {posts?.map(post => (
-        <PostCard
-          key={post.postId}
-          postId={post.postId}
-          post={post.post as IPostData}
-        />
-      ))}
+      {posts?.map(post => <PostCard key={post.postId} postData={post} />)}
       {hasNextPage && (
         <div ref={ref} className="flex h-16 items-center justify-center">
           <Loading />
