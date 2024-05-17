@@ -13,11 +13,7 @@ const MessageRoomList = () => {
   return (
     <div className="w-full">
       {messageRooms?.map(room => (
-        <MessageRoom
-          key={room.roomId}
-          receiverId={room.receiverId}
-          roomId={room.roomId}
-        />
+        <MessageRoom key={room.roomId} receiverId={room.receiverId} />
       ))}
     </div>
   );

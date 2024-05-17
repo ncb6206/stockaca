@@ -29,7 +29,6 @@ export interface ISendMessage {
   content: string;
 }
 
-export interface IMessageRoom {
+export interface IReceiverId {
   receiverId: string;
-  roomId: string;
 }
