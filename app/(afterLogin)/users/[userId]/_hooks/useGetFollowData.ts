@@ -4,13 +4,13 @@ import { getFollowData } from '@/app/(afterLogin)/users/[userId]/_services/getFo
 import { IUserId } from '@/app/_types/user';
 
 const useGetFollowData = ({ userId }: IUserId) => {
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['follow', userId],
     queryFn: () => getFollowData({ userId }),
     enabled: !!userId,
   });
 
-  return { data };
+  return { data, isLoading };
 };
 
 export default useGetFollowData;

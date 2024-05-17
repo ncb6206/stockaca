@@ -7,12 +7,10 @@ const useFollowPostList = ({ userId }: IUserId) => {
   const { data, isLoading } = useQuery({
     queryKey: ['post', userId, 'following'],
     queryFn: () => getFollowingPostList({ userId }),
-    staleTime: 60 * 1000,
-    gcTime: 300 * 1000,
     enabled: !!userId,
   });
 
-  return { isLoading, data };
+  return { data, isLoading };
 };
 
 export default useFollowPostList;

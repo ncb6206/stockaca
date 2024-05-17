@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { IPostId } from '@/app/_types/post';
+import { IPostData, IPostId } from '@/app/_types/post';
 import { getPost } from '@/app/(afterLogin)/[userId]/post/[postId]/_services/getPost';
 
 const useGetSinglePost = ({ postId }: IPostId) => {
@@ -10,7 +10,9 @@ const useGetSinglePost = ({ postId }: IPostId) => {
     enabled: !!postId,
   });
 
-  return { data, error };
+  const postData = { postId, post: data as IPostData };
+
+  return { postData, error };
 };
 
 export default useGetSinglePost;
