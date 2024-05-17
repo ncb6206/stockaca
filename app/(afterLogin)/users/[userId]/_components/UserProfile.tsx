@@ -2,10 +2,11 @@
 
 import Image from 'next/image';
 
+import Loader from '@/components/ui/loader';
 import { Avatar } from '@/components/ui/avatar';
+import { IFollowData } from '@/app/_types/follow';
 import LogoutButton from '@/app/(afterLogin)/users/[userId]/_components/LogoutButton';
 import FollowButton from '@/app/(afterLogin)/users/[userId]/_components/FollowButton';
-import { IFollowData } from '@/app/_types/follow';
 import useFollowModalStore from '@/app/_store/useFollowModal';
 import useGetUserData from '@/app/(afterLogin)/users/[userId]/_hooks/useGetUserData';
 import useGetFollowData from '@/app/(afterLogin)/users/[userId]/_hooks/useGetFollowData';
@@ -17,13 +18,23 @@ interface UserProfileProps {
 
 const UserProfile = ({ userId }: UserProfileProps) => {
   const { onOpen, onSetUserId } = useFollowModalStore();
-  const { data: userData, error: userError } = useGetUserData({ userId });
-  const { data: followData } = useGetFollowData({ userId });
+  const {
+    data: userData,
+    error: userError,
+    isLoading: userLoading,
+  } = useGetUserData({ userId });
+  const { data: followData, isLoading: followLoading } = useGetFollowData({
+    userId,
+  });
 
   const onOpenFollowModal = () => {
     onSetUserId(userId);
     onOpen();
   };
+
+  if (userLoading || followLoading) {
+    return <Loader />;
+  }
 
   if (!userData || userError) {
     return <div>이런! 사용자를 찾을 수 없습니다.</div>;
@@ -41,8 +52,8 @@ const UserProfile = ({ userId }: UserProfileProps) => {
             <Image
               src={userData?.profileImage}
               alt="프로필 사진"
-              width={300}
-              height={300}
+              width={200}
+              height={200}
               placeholder="blur"
               blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg=="
             />

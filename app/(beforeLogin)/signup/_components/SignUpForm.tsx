@@ -7,7 +7,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import SubmitButton from '@/components/ui/SubmitButton';
-import useSignUpForm from '../_hooks/useSignUpForm';
+import { Avatar } from '@/components/ui/avatar';
+import useSignUpForm from '@/app/(beforeLogin)/signup/_hooks/useSignUpForm';
 
 const SignUpForm = () => {
   const {
@@ -131,15 +132,17 @@ const SignUpForm = () => {
             className="mt-3 rounded-xl hover:cursor-pointer"
             htmlFor="profileImage"
           >
-            {previewImage && (
-              <Image
-                src={previewImage as string}
-                alt="미리보기"
-                width={500}
-                height={500}
-              />
-            )}
-            {!previewImage && <Skeleton className="h-60 w-64" />}
+            <Avatar className="h-28 w-28">
+              {previewImage && (
+                <Image
+                  src={previewImage as string}
+                  alt="미리보기"
+                  width={120}
+                  height={120}
+                />
+              )}
+              {!previewImage && <Skeleton className="h-full w-full" />}
+            </Avatar>
           </label>
           {errors.profileImage && (
             <p className="mt-2 text-red-600">{errors.profileImage?.message}</p>
