@@ -17,7 +17,7 @@ const FollowPostList = () => {
   return (
     <div className="flex h-full w-full flex-col">
       {followPostData?.map(post => (
-        <PostCard key={post.postId} postId={post.postId} post={post.post} />
+        <PostCard key={post.postId} postData={post} />
       ))}
     </div>
   );

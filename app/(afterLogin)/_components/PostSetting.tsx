@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { IPostSetting } from '@/app/_types/post';
 import usePostSetting from '@/app/(afterLogin)/home/_hooks/usePostSetting';
+import useOnAuth from '@/app/_hooks/useOnAuth';
 
 const PostSetting = ({
   userId,
@@ -17,11 +18,16 @@ const PostSetting = ({
   parentPostId,
   isCommentOwner,
 }: IPostSetting) => {
+  const { loading } = useOnAuth();
   const { onEditPost, onDeletePost } = usePostSetting({
     userId,
     postId,
     parentPostId,
   });
+
+  if (loading) {
+    return null;
+  }
 
   return (
     <div className="relative">

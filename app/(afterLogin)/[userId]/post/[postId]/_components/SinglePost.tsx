@@ -5,13 +5,13 @@ import useGetSinglePost from '@/app/(afterLogin)/[userId]/post/[postId]/_hooks/u
 import { IPostId } from '@/app/_types/post';
 
 const SinglePost = ({ postId }: IPostId) => {
-  const { data: postData, error } = useGetSinglePost({ postId });
+  const { postData, error } = useGetSinglePost({ postId });
 
   if (!postData || error) {
     return <div>이런! 페이지를 찾을 수 없습니다.</div>;
   }
 
-  return <PostCard post={postData} postId={postId} />;
+  return <PostCard postData={postData} />;
 };
 
 export default SinglePost;

@@ -10,14 +10,14 @@ interface IMessageButtonProps {
 }
 
 const MessageButton = ({ userId }: IMessageButtonProps) => {
-  const { user } = useOnAuth();
+  const { user, loading } = useOnAuth();
   const router = useRouter();
 
   const goMessage = () => {
     router.push(`/messages/${userId}`);
   };
 
-  if (user?.displayName === userId) {
+  if (loading || user?.displayName === userId) {
     return null;
   }
 

@@ -4,12 +4,12 @@ import { IUserId } from '@/app/_types/user';
 import { getUser } from '@/app/(afterLogin)/users/[userId]/_services/getUser';
 
 const useGetUserData = ({ userId }: IUserId) => {
-  const { data, error } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ['users', userId],
     queryFn: () => getUser({ userId }),
   });
 
-  return { data, error };
+  return { data, isLoading, error };
 };
 
 export default useGetUserData;

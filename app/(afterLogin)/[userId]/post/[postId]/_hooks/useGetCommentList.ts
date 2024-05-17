@@ -1,6 +1,3 @@
-import { useCallback, useEffect } from 'react';
-import _ from 'lodash';
-import { useInView } from 'react-intersection-observer';
 import { useInfiniteQuery, InfiniteData } from '@tanstack/react-query';
 import {
   QuerySnapshot,
@@ -12,12 +9,9 @@ import {
   getCommentListNext,
   getCommentListFirst,
 } from '@/app/(afterLogin)/[userId]/post/[postId]/_services/getCommentList';
-import { IPostId } from '@/app/_types/post';
-import useGetSinglePost from '@/app/(afterLogin)/[userId]/post/[postId]/_hooks/useGetSinglePost';
+import { IPostData, IPostId } from '@/app/_types/post';
 
 const useGetCommentList = ({ postId }: IPostId) => {
-  const { data: post } = useGetSinglePost({ postId });
-
   const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery<
     QuerySnapshot<DocumentData, DocumentData>,
     Object,
@@ -38,27 +32,11 @@ const useGetCommentList = ({ postId }: IPostId) => {
     },
   });
 
-  const { ref, inView } = useInView({
-    threshold: 0.5,
-  });
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const throttledFetchNextPage = useCallback(_.throttle(fetchNextPage, 500), [
-    fetchNextPage,
-  ]);
-
-  useEffect(() => {
-    if (inView && !isFetching && hasNextPage) {
-      throttledFetchNextPage();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inView]);
-
   const comments = data?.pages
     .flatMap(page => page.docs)
-    .map(doc => ({ commentId: doc.id, comment: doc.data() }));
+    .map(doc => ({ postId: doc.id, post: doc.data() as IPostData }));
 
-  return { post, comments, hasNextPage, ref };
+  return { comments, hasNextPage, fetchNextPage, isFetching };
 };
 
 export default useGetCommentList;

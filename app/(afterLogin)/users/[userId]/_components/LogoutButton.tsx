@@ -9,9 +9,9 @@ interface ILogoutProps {
 }
 
 const LogoutButton = ({ userId }: ILogoutProps) => {
-  const { user } = useOnAuth();
+  const { user, loading } = useOnAuth();
 
-  if (user?.displayName !== userId) {
+  if (loading || user?.displayName !== userId) {
     return null;
   }
 

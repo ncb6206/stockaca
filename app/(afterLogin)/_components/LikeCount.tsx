@@ -24,7 +24,7 @@ const LikeCount = ({ postId, post }: IPostListData) => {
         ) : (
           <IoHeartOutline className="text-xl" />
         )}
-        <p>{post.likeCount}</p>
+        <p>{post?.likeCount}</p>
       </div>
     </div>
   );
