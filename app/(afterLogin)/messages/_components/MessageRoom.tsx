@@ -3,11 +3,11 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-import { IMessageRoom } from '@/app/_types/message';
+import { IReceiverId } from '@/app/_types/message';
 import useGetUserData from '@/app/(afterLogin)/users/[userId]/_hooks/useGetUserData';
 import { Avatar } from '@/components/ui/avatar';
 
-const MessageRoom = ({ receiverId, roomId }: IMessageRoom) => {
+const MessageRoom = ({ receiverId }: IReceiverId) => {
   const router = useRouter();
   const { data: userData } = useGetUserData({ userId: receiverId });
 
