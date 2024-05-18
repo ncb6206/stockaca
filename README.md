@@ -303,21 +303,34 @@ PW : test1234!
 ## 📌 트러블슈팅
 
 <details>
-<summary><b>좋아요 버튼 클릭 시 이벤트 전파</b></summary>
+<summary><b>좋아요 버튼 클릭 시 의도하지 않은 페이지 이동 문제</b></summary>
 <div markdown="1">
 
 #### 문제
 
-- 특정 피드에 좋아요 버튼을 클릭 시 좋아요와 해당 피드의 상세 페이지로 이동하는 문제 발생
+- 피드의 좋아요 버튼을 클릭할 때, 좋아요 그능은 정상적으로 동작하지만 동시에 해당 피드의 상세 페이지로 이동하는 문제 발생
 
 #### 원인
 
-- 해당 피드의 상세 페이지로 이동 시켜주는 onClick이벤트를 가진 부모 div안에 해당 피드의 좋아요를 표시할 수 있는 onClick이벤트를 가진 자식 div가 있어서 이벤트 버블링 현상 발생
+- 좋아요 버튼을 감싸고 있는 부모 요소(div)에 피드 상세 페이지로 이동하는 onClick 이벤트가 설정되어 있었음
+- 좋아요 버튼 클릭 시, 이벤트 버블링으로 인해 부모 요소의 onClick 이벤트까지 실행되어 의도하지 않은 페이지 이동이 발생했습니다.
 
 #### 해결
 
-- 부모 div의 onClick이벤트 핸들러 내에 `event.stopPropagation()`을 호출하여 이벤트 버블링을 중단시킴으로써 해결
+- 좋아요 버튼의 onClick 이벤트 핸들러 내에서 `event.stopPropagation()`을 호출하여 이벤트 버블링을 막음
+- 이를 통해 좋아요 버튼 클릭 시, 해당 이벤트가 부모 요소로 전파되는 것을 막을 수 있었음
 
+```tsx
+const onToggleLike = (event: MouseEvent<HTMLDivElement>) => {
+  event.stopPropagation();
+  setLiked(prev => !prev);
+  if (liked) {
+    mutationUnLike.mutate();
+  } else {
+    mutationLike.mutate();
+  }
+};
+```
 
 </div>
 </details>
