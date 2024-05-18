@@ -18,7 +18,21 @@ PW : test1234!
 |패키지 관리|<img src="https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm"> |
 |배포| <img src="https://img.shields.io/badge/vercel-232F3E?style=for-the-badge&logo=vercel&logoColor=white">
 
-- [기술 스택 선정 이유](https://github.com/ncb6206/stockaca/wiki/%EA%B8%B0%EC%88%A0-%EC%8A%A4%ED%83%9D-%EC%84%A0%EC%A0%95-%EC%9D%B4%EC%9C%A0)
+<details>
+<summary><b>기술 스택 선정 이유</b></summary>
+<div markdown="1">
+
+| 기술 스택 | 선정 이유 | 
+|:---|:---:| 
+| Next.js | - 각 피드의 게시물과 유저의 개인 프로필 페이지에 서버 사이드 렌더링(SSR)를 적용하여 초기 로딩 속도 개선과 검색 엔진 최적화(SEO)에 유리하게 하였습니다. <br/> - 프레임워크 안에 내장된 라우팅 시스템을 통해 프로젝트 구조화에 도움이 되었습니다. <br/> - Next/image, 코드 스플리팅, 프리페칭 등의 최적화 기능을 활용하여 성능을 향상시킬 수 있었습니다. | 
+| TailwindCss | - 유틸리티 클래스 기반의 CSS 프레임워크로, 빠른 UI 개발과 일관된 디자인 시스템 구축에 효과적입니다. <br/> - 반응형 디자인을 위한 클래스를 제공하여 모바일 친화적인 개발이 가능했습니다. <br/> - CSS-in-JS 방식은 런타임에 스타일을 생성하고 적용하므로 서버 측 렌더링 시 추가 오버헤드가 발생할 수 있음. Tailwind CSS를 사용하면 별도의 JavaScript 런타임이 필요하지 않아 서버 부담을 줄일 수 있었습니다.  | 
+| Tanstack Query(React Query) | - 데이터 fetching, 캐싱, 동기화를 처리할 수 있어 파이어베이스와의 연동이 수월하였습니다. <br/> - useQuery나 useMutation과 같은 선언적이고 직관적인 API를 제공하여 코드 가독성과 유지보수성을 높일 수 있었습니다. <br/> - enabled라는 옵션을 사용하여 해당 인자가 존재하지 않는 경우에는 fetch를 실행하지 않도록 하여 불필요한 요청을 줄일 수 있었습니다.  | 
+| React Hook Form | - 폼 상태 관리와 유효성 검사를 간편하게 처리할 수 있어 코드의 양을 줄일 수 있었습니다. <br/> - 비제어 컴포넌트로 이루어져 있어 불필요한 렌더링 최소화로 성능 최적화를 할 수 있었습니다. <br/> - 회원가입, 로그인, 게시글 작성 폼에 사용하여 개발 생산성을 향상시킬 수 있었습니다.  | 
+| Shadcn/UI | - 이 프로젝트에서는 Shadcn/UI의 다양한 컴포넌트를 활용하여 모달, 버튼, 스켈레톤 UI, 드롭다운 등의 UI 요소를 일관되고 세련되게 구현했습니다. | 
+| Firebase (Authentication, Firestore, storage) | - 백엔드 인프라를 별도로 구축하지 않고도 인증, 데이터베이스, 스토리지 등의 기능을 제공하여 빠른 개발이 가능하기에 채택하였습니다. | 
+
+</div>
+</details>
 
 ## 📌 폴더 구조
 
