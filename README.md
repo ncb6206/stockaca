@@ -242,15 +242,9 @@ PW : test1234!
 
 - 회원가입 필수 요소: 이름, 닉네임, 프로필 이미지, 인사말
 
-<details><summary>회원가입 
-</summary>
-  <img src="https://github.com/ncb6206/stockaca/assets/62326659/cdc3af96-9ef1-419c-9752-f659ece00399"/>
-</details>
-
-<details><summary>로그인
-</summary>
-  <img src="https://github.com/ncb6206/stockaca/assets/62326659/614437c0-e637-4155-8713-027e1dba9615"/>
-</details>
+|회원가입|로그인|
+|---|---|
+| <img width=350 height=500 src="https://github.com/ncb6206/stockaca/assets/62326659/cdc3af96-9ef1-419c-9752-f659ece00399"/> | <img width=300 height=500 src="https://github.com/ncb6206/stockaca/assets/62326659/614437c0-e637-4155-8713-027e1dba9615"/>|
 
 ### 게시글 피드
 
@@ -262,25 +256,13 @@ PW : test1234!
 
 - 이미지 파일 첨부 및 Firebase Cloud Storage 활용
 
-<details><summary>피드 리스트
-</summary>
-  <img src="https://github.com/ncb6206/stockaca/assets/62326659/024b9153-f5f1-4263-81eb-8bf5fbf1f11b"/>
-</details>
+|피드 리스트|피드 작성|
+|---|---|
+| <img width=300 height=500  src="https://github.com/ncb6206/stockaca/assets/62326659/024b9153-f5f1-4263-81eb-8bf5fbf1f11b"/> | <img width=300 height=500 src="https://github.com/ncb6206/stockaca/assets/62326659/b38cd251-e6ad-4df8-b963-4e230b944d26"/>|
 
-<details><summary>피드 작성
-</summary>
-  <img src="https://github.com/ncb6206/stockaca/assets/62326659/b38cd251-e6ad-4df8-b963-4e230b944d26"/>
-</details>
-
-<details><summary>피드 수정
-</summary>
-  <img src="https://github.com/ncb6206/stockaca/assets/62326659/75e6de4a-639c-4d58-81ed-034bbb221aa5"/>
-</details>
-
-<details><summary>피드 삭제
-</summary>
-  <img src="https://github.com/ncb6206/stockaca/assets/62326659/39c19e1a-2f3a-42f8-aadc-505d7997d807"/>
-</details>
+|피드 수정|피드 삭제|
+|---|---|
+| <img width=300 height=500  src="https://github.com/ncb6206/stockaca/assets/62326659/75e6de4a-639c-4d58-81ed-034bbb221aa5"/> | <img width=300 height=500 src="https://github.com/ncb6206/stockaca/assets/62326659/39c19e1a-2f3a-42f8-aadc-505d7997d807"/>|
 
 ### 좋아요 및 댓글 기능
 
@@ -289,15 +271,10 @@ PW : test1234!
 - 댓글 조회, 생성, 수정, 삭제 기능 구현
 
 - 댓글 조회 시 useInfiniteQuery 기능을 사용한 무한 스크롤 페이징 적용
-<details><summary>피드 좋아요
-</summary>
-  <img src="https://github.com/ncb6206/stockaca/assets/62326659/1f16caf5-95bd-44b0-8d1a-53ab02e8e888"/>
-</details>
 
-<details><summary>댓글 작성
-</summary>
-  <img src="https://github.com/ncb6206/stockaca/assets/62326659/edd11cf7-9bbd-4cc7-ad06-cdddacd8e934"/>
-</details>
+|피드 좋아요|댓글 작성|
+|---|---|
+| <img width=300 height=500  src="https://github.com/ncb6206/stockaca/assets/62326659/1f16caf5-95bd-44b0-8d1a-53ab02e8e888"/> | <img width=300 height=500 src="https://github.com/ncb6206/stockaca/assets/62326659/edd11cf7-9bbd-4cc7-ad06-cdddacd8e934"/>|
 
 ### 유저 프로필, 팔로우/언팔로우 기능 
 
@@ -307,20 +284,9 @@ PW : test1234!
 
 - 팔로우한 사용자의 게시글만 볼 수 있는 페이지 제공
 
-<details><summary>유저 프로필
-</summary>
-  <img src="https://github.com/ncb6206/stockaca/assets/62326659/2fa4d3bf-c67e-4a04-9f55-478340a83b2a"/>
-</details>
-
-<details><summary>팔로우 / 언팔로우
-</summary>
-  <img src="https://github.com/ncb6206/stockaca/assets/62326659/706c2695-1208-440b-adde-419c85e2ec3e"/>
-</details>
-
-<details><summary> 팔로우 / 팔로잉 리스트
-</summary>
-  <img src="https://github.com/ncb6206/stockaca/assets/62326659/ea02c36e-4082-4881-b79a-04df89b7ceed"/>
-</details>
+|유저 프로필|팔로우 / 언팔로우|팔로우 / 팔로잉 리스트|
+|---|---|---|
+| <img width=300 height=500  src="https://github.com/ncb6206/stockaca/assets/62326659/2fa4d3bf-c67e-4a04-9f55-478340a83b2a"/> | <img width=300 height=500  src="https://github.com/ncb6206/stockaca/assets/62326659/706c2695-1208-440b-adde-419c85e2ec3e"/>| <img width=300 height=500  src="https://github.com/ncb6206/stockaca/assets/62326659/ea02c36e-4082-4881-b79a-04df89b7ceed"/>|
 
 ### 실시간 채팅 기능
 
@@ -330,10 +296,9 @@ PW : test1234!
 
 - 채팅 목록 페이지 제공
 
-<details><summary>채팅
-</summary>
-  <img src="https://github.com/ncb6206/stockaca/assets/62326659/2cb6d06d-21d7-4e82-9ce2-d9d5a8f7d52b"/>
-</details>
+|채팅|
+|---|
+| <img width=800 height=600 src="https://github.com/ncb6206/stockaca/assets/62326659/2cb6d06d-21d7-4e82-9ce2-d9d5a8f7d52b"/> | 
 
 ## 📌 트러블슈팅
 
