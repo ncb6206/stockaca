@@ -5,19 +5,15 @@ import Image from 'next/image';
 import Loader from '@/components/ui/loader';
 import { Avatar } from '@/components/ui/avatar';
 import { IFollowData } from '@/app/_types/follow';
-import LogoutButton from '@/app/(afterLogin)/users/[userId]/_components/LogoutButton';
-import FollowButton from '@/app/(afterLogin)/users/[userId]/_components/FollowButton';
-import useFollowModalStore from '@/app/_store/useFollowModal';
 import useGetUserData from '@/app/(afterLogin)/users/[userId]/_hooks/useGetUserData';
 import useGetFollowData from '@/app/(afterLogin)/users/[userId]/_hooks/useGetFollowData';
+import LogoutButton from '@/app/(afterLogin)/users/[userId]/_components/LogoutButton';
+import FollowButton from '@/app/(afterLogin)/users/[userId]/_components/FollowButton';
 import MessageButton from '@/app/(afterLogin)/users/[userId]/_components/MessageButton';
+import FollowInfo from '@/app/(afterLogin)/users/[userId]/_components/FollowInfo';
+import { IUserId } from '@/app/_types/user';
 
-interface UserProfileProps {
-  userId: string;
-}
-
-const UserProfile = ({ userId }: UserProfileProps) => {
-  const { onOpen, onSetUserId } = useFollowModalStore();
+const UserProfile = ({ userId }: IUserId) => {
   const {
     data: userData,
     error: userError,
@@ -26,11 +22,6 @@ const UserProfile = ({ userId }: UserProfileProps) => {
   const { data: followData, isLoading: followLoading } = useGetFollowData({
     userId,
   });
-
-  const onOpenFollowModal = () => {
-    onSetUserId(userId);
-    onOpen();
-  };
 
   if (userLoading || followLoading) {
     return <Loader />;
@@ -62,27 +53,7 @@ const UserProfile = ({ userId }: UserProfileProps) => {
       </div>
       <p>{userData?.bio}</p>
       <div className="mt-2 flex items-center">
-        <div
-          className="flex gap-4 hover:cursor-pointer hover:underline"
-          onClick={onOpenFollowModal}
-        >
-          <div>
-            <p>
-              팔로워
-              <span className="mx-1 font-bold">
-                {followData?.followerUserId.length}
-              </span>
-            </p>
-          </div>
-          <div>
-            <p>
-              팔로잉
-              <span className="mx-1 font-bold">
-                {followData?.followingUserId.length}
-              </span>
-            </p>
-          </div>
-        </div>
+        <FollowInfo userId={userId} />
         <div className="flex-1" />
         <div className="flex gap-2">
           <MessageButton userId={userId} />

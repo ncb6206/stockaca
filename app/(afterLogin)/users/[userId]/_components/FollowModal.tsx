@@ -9,8 +9,8 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import useFollowModalStore from '@/app/_store/useFollowModal';
-import FollowCard from './FollowCard';
-import useGetFollowData from '../_hooks/useGetFollowData';
+import FollowCard from '@/app/(afterLogin)/users/[userId]/_components/FollowCard';
+import useGetFollowData from '@/app/(afterLogin)/users/[userId]/_hooks/useGetFollowData';
 
 type selectedType = 'follower' | 'following';
 
