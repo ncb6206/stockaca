@@ -6,12 +6,9 @@ import Link from 'next/link';
 import { Avatar } from '@/components/ui/avatar';
 import useFollowModalStore from '@/app/_store/useFollowModal';
 import useGetUserData from '@/app/(afterLogin)/users/[userId]/_hooks/useGetUserData';
+import { IUserId } from '@/app/_types/user';
 
-interface IFollowCardProps {
-  userId: string;
-}
-
-const FollowCard = ({ userId }: IFollowCardProps) => {
+const FollowCard = ({ userId }: IUserId) => {
   const { onChange } = useFollowModalStore();
   const { data: userData } = useGetUserData({ userId });
 

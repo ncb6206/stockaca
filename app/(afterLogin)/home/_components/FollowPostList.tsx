@@ -7,7 +7,7 @@ import useFollowPostList from '@/app/(afterLogin)/home/_hooks/useFollowPostList'
 const FollowPostList = () => {
   const { user } = useOnAuth();
   const { data: followPostData, isLoading } = useFollowPostList({
-    userId: user?.displayName as string,
+    userId: user?.displayName ?? '',
   });
 
   if (!isLoading && !followPostData) {

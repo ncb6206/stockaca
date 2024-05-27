@@ -4,12 +4,9 @@ import { IoSend } from 'react-icons/io5';
 import TextareaAutosize from 'react-textarea-autosize';
 
 import useMessageForm from '@/app/(afterLogin)/messages/[userId]/_hooks/useMessageForm';
+import { IUserId } from '@/app/_types/user';
 
-interface IMessageForm {
-  userId: string;
-}
-
-const MessageForm = ({ userId }: IMessageForm) => {
+const MessageForm = ({ userId }: IUserId) => {
   const { handleSubmit, onSubmit, register, handleKeyDown } = useMessageForm({
     receiverId: userId,
   });

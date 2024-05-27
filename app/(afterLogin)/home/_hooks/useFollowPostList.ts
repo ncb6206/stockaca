@@ -4,13 +4,11 @@ import { getFollowingPostList } from '@/app/(afterLogin)/home/_services/getFollo
 import { IUserId } from '@/app/_types/user';
 
 const useFollowPostList = ({ userId }: IUserId) => {
-  const { data, isLoading } = useQuery({
+  return useQuery({
     queryKey: ['post', userId, 'following'],
     queryFn: () => getFollowingPostList({ userId }),
     enabled: !!userId,
   });
-
-  return { data, isLoading };
 };
 
 export default useFollowPostList;

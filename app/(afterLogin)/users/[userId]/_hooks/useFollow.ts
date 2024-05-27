@@ -18,15 +18,13 @@ const useFollow = ({ userId, user, followData }: IUseFollow) => {
   const [isFollow, setIsFollow] = useState(false);
 
   useEffect(() => {
-    setIsFollow(
-      followData?.followerUserId.includes(user?.displayName as string),
-    );
+    setIsFollow(followData?.followerUserId.includes(user?.displayName ?? ''));
   }, [followData?.followerUserId, user?.displayName]);
 
   const onFollow = useMutation({
     mutationFn: () =>
       follow({
-        currentUserId: user?.displayName as string,
+        currentUserId: user?.displayName ?? '',
         targetUserId: userId,
       }),
     onSuccess: () => {
@@ -46,7 +44,7 @@ const useFollow = ({ userId, user, followData }: IUseFollow) => {
   const onUnFollow = useMutation({
     mutationFn: () =>
       unFollow({
-        currentUserId: user?.displayName as string,
+        currentUserId: user?.displayName ?? '',
         targetUserId: userId,
       }),
     onSuccess: () => {

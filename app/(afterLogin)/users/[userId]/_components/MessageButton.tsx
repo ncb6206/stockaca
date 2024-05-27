@@ -4,12 +4,9 @@ import { useRouter } from 'next/navigation';
 
 import useOnAuth from '@/app/_hooks/useOnAuth';
 import { Button } from '@/components/ui/button';
+import { IUserId } from '@/app/_types/user';
 
-interface IMessageButtonProps {
-  userId: string;
-}
-
-const MessageButton = ({ userId }: IMessageButtonProps) => {
+const MessageButton = ({ userId }: IUserId) => {
   const { user, loading } = useOnAuth();
   const router = useRouter();
 

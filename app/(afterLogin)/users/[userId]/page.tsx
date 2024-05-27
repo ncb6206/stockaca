@@ -4,11 +4,12 @@ import {
   dehydrate,
 } from '@tanstack/react-query';
 
+import { IUserId } from '@/app/_types/user';
 import UserProfile from '@/app/(afterLogin)/users/[userId]/_components/UserProfile';
 import { getUser } from '@/app/(afterLogin)/users/[userId]/_services/getUser';
 
 interface UserPageProps {
-  params: { userId: string };
+  params: IUserId;
 }
 
 const UserPage = async ({ params }: UserPageProps) => {

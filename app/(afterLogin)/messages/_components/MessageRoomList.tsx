@@ -7,7 +7,7 @@ import MessageRoom from '@/app/(afterLogin)/messages/_components/MessageRoom';
 const MessageRoomList = () => {
   const { user } = useOnAuth();
   const { data: messageRooms } = useMessageRooms({
-    userId: user?.displayName as string,
+    userId: user?.displayName ?? '',
   });
 
   return (

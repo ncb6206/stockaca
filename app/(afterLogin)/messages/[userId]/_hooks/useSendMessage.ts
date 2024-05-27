@@ -17,7 +17,7 @@ const useSendMessage = ({ receiverId, reset }: IUseSendMessage) => {
   const sendToMessage = useMutation({
     mutationFn: (data: IMessage) =>
       sendMessage({
-        senderId: user?.displayName as string,
+        senderId: user?.displayName ?? '',
         receiverId,
         content: data.content,
       }),

@@ -3,12 +3,9 @@
 import { Button } from '@/components/ui/button';
 import { logout } from '@/app/(afterLogin)/users/[userId]/_services/logout';
 import useOnAuth from '@/app/_hooks/useOnAuth';
+import { IUserId } from '@/app/_types/user';
 
-interface ILogoutProps {
-  userId: string;
-}
-
-const LogoutButton = ({ userId }: ILogoutProps) => {
+const LogoutButton = ({ userId }: IUserId) => {
   const { user, loading } = useOnAuth();
 
   if (loading || user?.displayName !== userId) {

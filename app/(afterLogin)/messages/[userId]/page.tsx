@@ -1,9 +1,10 @@
+import { IUserId } from '@/app/_types/user';
 import UserInfo from '@/app/(afterLogin)/messages/[userId]/_components/UserInfo';
 import MessageList from '@/app/(afterLogin)/messages/[userId]/_components/MessageList';
 import MessageForm from '@/app/(afterLogin)/messages/[userId]/_components/MessageForm';
 
 interface MessageUserPageProps {
-  params: { userId: string };
+  params: IUserId;
 }
 
 const MessageUserPage = ({ params }: MessageUserPageProps) => {

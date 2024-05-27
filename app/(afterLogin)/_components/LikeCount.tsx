@@ -10,7 +10,7 @@ const LikeCount = ({ postId, post }: IPostListData) => {
   const { user } = useOnAuth();
   const { onToggleLike, liked } = useToggleLike({
     postId,
-    userId: user?.displayName as string,
+    userId: user?.displayName ?? '',
   });
 
   return (

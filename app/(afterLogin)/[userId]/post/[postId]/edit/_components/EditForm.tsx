@@ -10,13 +10,9 @@ import SubmitButton from '@/components/ui/SubmitButton';
 import useEditForm from '@/app/(afterLogin)/[userId]/post/[postId]/edit/_hooks/useEditForm';
 import useOnAuth from '@/app/_hooks/useOnAuth';
 import { usePostStore } from '@/app/_store/usePost';
+import { IPostParams } from '@/app/_types/post';
 
-export interface EditFormProps {
-  userId: string;
-  postId: string;
-}
-
-const EditForm = ({ userId, postId }: EditFormProps) => {
+const EditForm = ({ userId, postId }: IPostParams) => {
   const router = useRouter();
   const { user, loading } = useOnAuth();
   const { mode } = usePostStore();
@@ -87,7 +83,7 @@ const EditForm = ({ userId, postId }: EditFormProps) => {
               )}
               {previewImage && (
                 <Image
-                  src={previewImage as string}
+                  src={typeof previewImage === 'string' ? previewImage : ''}
                   alt="미리보기"
                   width={500}
                   height={500}

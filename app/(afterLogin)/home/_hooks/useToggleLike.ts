@@ -1,17 +1,15 @@
 import { MouseEvent, useState, useEffect } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+import { ILikeData } from '@/app/_types/like';
 import { likePost } from '@/app/(afterLogin)/home/_services/likePost';
 import { unLikePost } from '@/app/(afterLogin)/home/_services/unLikePost';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { getLike } from '../_services/getLike';
+import useGetLiked from '@/app/(afterLogin)/home/_hooks/useGetLiked';
 
-interface IUseToggleLike {
-  postId: string;
-  userId?: string;
-}
-
-const useToggleLike = ({ postId, userId }: IUseToggleLike) => {
+const useToggleLike = ({ postId, userId }: ILikeData) => {
   const queryClient = useQueryClient();
   const [liked, setLiked] = useState(false);
+  const { data: isLiked } = useGetLiked({ userId, postId });
 
   const mutationLike = useMutation({
     mutationFn: () => likePost({ userId, postId }),
@@ -38,15 +36,8 @@ const useToggleLike = ({ postId, userId }: IUseToggleLike) => {
   });
 
   useEffect(() => {
-    const checkLiked = async () => {
-      if (userId && postId) {
-        const likeData = await getLike({ userId, postId });
-        setLiked(!!likeData);
-      }
-    };
-
-    checkLiked();
-  }, [postId, userId]);
+    setLiked(!!isLiked);
+  }, [isLiked]);
 
   const onToggleLike = (event: MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
