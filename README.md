@@ -386,3 +386,36 @@ const onToggleLike = (event: MouseEvent<HTMLDivElement>) => {
 
 </div>
 </details>
+
+<details>
+<summary><b>throttling 함수가 의도한 대로 동작하지 않는 문제</b></summary>
+<div markdown="1">
+
+#### 문제
+
+- 무한스크롤 적용과정에서 `lodash`의 `throttle`함수를 사용했지만, 예상한 대로 동작하지 않음 <br/>2000ms로 설정한 시간 간격으로 함수 호출이 제한되지 않고, 딜레이 없이 자주 호출됨
+  
+<img height='700px' src="https://github.com/ncb6206/stockaca/assets/62326659/0b699914-54e4-42c9-a73d-b920ce2da027"/>
+
+#### 원인
+```tsx
+const throttledFetchNextPage = throttle(fetchNextPage, 2000);
+```
+- `throttle` 함수는 호출될 때마다 새로운 함수 인스턴스를 생성함.
+    
+- React 컴포넌트가 리렌더링되면 컴포넌트 내부의 모든 코드가 다시 실행이 되기 때문에, `throttle(fetchNextPage, 2000)` 도 다시 호출이 되어 새로운 `throttle` 함수가 생성됨.
+    
+- 이로 인해, `throttle` 함수가 의도한 대로 함수 호출을 제한하지 못하게 되어 매번 새로운 `throttledFetchNextPage` 함수가 생성되어 기존의 `throttle` 상태가 초기화 됨
+
+#### 해결
+- `useCallback` 을 사용하여 문제 해결
+    
+- `useCallback` 훅을 사용하여 `throttle` 함수를 메모이제이션 하면, `fetchNextPage` 가 변경되지 않는 한 동일한 함수 참조를 유지하게 되어 `throttle` 의 호출 제한 기능이 의도한 대로 동작함
+```tsx
+const throttledFetchNextPage = useCallback(throttle(fetchNextPage, 2000), [fetchNextPage]);
+```
+<img height='700px' src="https://github.com/ncb6206/stockaca/assets/62326659/73bde3d2-e644-4623-a5bc-5e92c47b964c"/>
+
+
+</div>
+</details>
