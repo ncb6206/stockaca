@@ -68,7 +68,7 @@ const PostForm = () => {
               />
               {previewImage && (
                 <Image
-                  src={previewImage as string}
+                  src={typeof previewImage === 'string' ? previewImage : ''}
                   alt="미리보기"
                   width={500}
                   height={500}

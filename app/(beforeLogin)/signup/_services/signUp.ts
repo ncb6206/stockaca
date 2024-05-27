@@ -26,7 +26,6 @@ const SignUp = async (data: SignUpInputs) => {
     await saveUserData({ user, data });
     return true;
   } catch (error) {
-    console.log((error as Error).message);
     return false;
   }
 };

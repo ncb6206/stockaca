@@ -11,10 +11,10 @@ import { useEndScroll } from '@/app/(afterLogin)/messages/[userId]/_hooks/useEnd
 const MessageList = ({ userId }: IUserId) => {
   const { user } = useOnAuth();
   const { roomId, loading } = useRoomId({
-    senderId: user?.displayName as string,
+    senderId: user?.displayName ?? '',
     receiverId: userId,
   });
-  const { messages } = useMessageList({ roomId: roomId as string | undefined });
+  const { messages } = useMessageList({ roomId: roomId ?? '' });
   const { messagesEndRef } = useEndScroll(messages);
 
   if (loading) {

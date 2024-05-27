@@ -31,7 +31,6 @@ const useLoginForm = () => {
         toast.success('로그인 완료');
       }
     } catch (error) {
-      console.log((error as Error).message);
       toast.error('로그인 실패');
     }
   };

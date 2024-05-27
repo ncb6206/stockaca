@@ -135,7 +135,7 @@ const SignUpForm = () => {
             <Avatar className="h-28 w-28">
               {previewImage && (
                 <Image
-                  src={previewImage as string}
+                  src={typeof previewImage === 'string' ? previewImage : ''}
                   alt="미리보기"
                   width={120}
                   height={120}
