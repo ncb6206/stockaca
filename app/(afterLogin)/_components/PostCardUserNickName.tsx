@@ -1,6 +1,6 @@
 'use client';
 
-import { MouseEventHandler } from 'react';
+import React, { MouseEventHandler } from 'react';
 import Link from 'next/link';
 
 interface IPostUserNickName {
@@ -8,7 +8,10 @@ interface IPostUserNickName {
   nickname?: string;
 }
 
-const PostUserNickName = ({ hashedUserId, nickname }: IPostUserNickName) => {
+const PostCardUserNickName = ({
+  hashedUserId,
+  nickname,
+}: IPostUserNickName) => {
   const stopPropagation: MouseEventHandler<HTMLAnchorElement> = e => {
     e.stopPropagation();
   };
@@ -24,4 +27,4 @@ const PostUserNickName = ({ hashedUserId, nickname }: IPostUserNickName) => {
   );
 };
 
-export default PostUserNickName;
+export default React.memo(PostCardUserNickName);

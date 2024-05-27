@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import Image from 'next/image';
 
 import { Avatar } from '@/components/ui/avatar';
@@ -8,7 +9,7 @@ interface IPostUserImage {
   profileImage?: string;
 }
 
-const PostUserImage = ({ profileImage }: IPostUserImage) => {
+const PostCardUserImage = ({ profileImage }: IPostUserImage) => {
   return (
     <Avatar className="mr-2">
       {profileImage && (
@@ -25,4 +26,4 @@ const PostUserImage = ({ profileImage }: IPostUserImage) => {
   );
 };
 
-export default PostUserImage;
+export default React.memo(PostCardUserImage);

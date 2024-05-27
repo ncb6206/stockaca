@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { BsThreeDots } from 'react-icons/bs';
 
 import {
@@ -12,7 +13,7 @@ import { IPostSetting } from '@/app/_types/post';
 import usePostSetting from '@/app/(afterLogin)/home/_hooks/usePostSetting';
 import useOnAuth from '@/app/_hooks/useOnAuth';
 
-const PostSetting = ({
+const PostCardSetting = ({
   userId,
   postId,
   parentPostId,
@@ -56,4 +57,4 @@ const PostSetting = ({
   );
 };
 
-export default PostSetting;
+export default React.memo(PostCardSetting);

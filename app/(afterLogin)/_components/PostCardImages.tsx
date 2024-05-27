@@ -1,12 +1,13 @@
 'use client';
 
+import React from 'react';
 import Image from 'next/image';
 
 interface IPostImages {
   photoUrl: string[];
 }
 
-const PostImages = ({ photoUrl }: IPostImages) => {
+const PostCardImages = ({ photoUrl }: IPostImages) => {
   return (
     <>
       {photoUrl?.map((url: string) => (
@@ -25,4 +26,4 @@ const PostImages = ({ photoUrl }: IPostImages) => {
   );
 };
 
-export default PostImages;
+export default React.memo(PostCardImages);
