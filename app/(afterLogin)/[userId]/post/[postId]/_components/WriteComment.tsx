@@ -3,12 +3,9 @@
 import { useRouter } from 'next/navigation';
 
 import { usePostStore } from '@/app/_store/usePost';
+import { IPostId } from '@/app/_types/post';
 
-interface IWriteCommentProps {
-  postId: string;
-}
-
-const WriteComment = ({ postId }: IWriteCommentProps) => {
+const WriteComment = ({ postId }: IPostId) => {
   const router = useRouter();
   const { setMode, setParentPostId } = usePostStore();
   const onWriteComment = () => {

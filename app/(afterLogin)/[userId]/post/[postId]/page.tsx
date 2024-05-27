@@ -4,13 +4,14 @@ import {
   dehydrate,
 } from '@tanstack/react-query';
 
+import { IPostParams } from '@/app/_types/post';
 import SinglePost from '@/app/(afterLogin)/[userId]/post/[postId]/_components/SinglePost';
 import CommentList from '@/app/(afterLogin)/[userId]/post/[postId]/_components/CommentList';
 import WriteComment from '@/app/(afterLogin)/[userId]/post/[postId]/_components/WriteComment';
 import { getPost } from '@/app/(afterLogin)/[userId]/post/[postId]/_services/getPost';
 
 interface PostPageProps {
-  params: { userId: string; postId: string };
+  params: IPostParams;
 }
 
 const PostPage = async ({ params }: PostPageProps) => {

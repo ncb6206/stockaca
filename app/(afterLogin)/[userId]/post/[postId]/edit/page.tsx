@@ -1,7 +1,8 @@
+import { IPostParams } from '@/app/_types/post';
 import EditForm from '@/app/(afterLogin)/[userId]/post/[postId]/edit/_components/EditForm';
 
 interface EditPageProps {
-  params: { userId: string; postId: string };
+  params: IPostParams;
 }
 
 const EditPage = ({ params }: EditPageProps) => {

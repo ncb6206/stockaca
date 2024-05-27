@@ -1,3 +1,12 @@
+export interface IPostId {
+  postId: string;
+}
+
+export interface IPostParams {
+  postId: string;
+  userId: string;
+}
+
 export interface IPostData {
   userId: string;
   commentCount: number;
@@ -8,10 +17,6 @@ export interface IPostData {
   updatedAt: number;
   createdAt: number;
   hashedUserId: string;
-}
-
-export interface IPostId {
-  postId: string;
 }
 
 export interface IPostListData {
@@ -40,9 +45,4 @@ export interface IUpdatePost {
   photoUrl: string[];
   content: string;
   updatedAt: number;
-}
-
-export interface IPostCommentProps {
-  userId: string;
-  postId: string;
 }

@@ -2,12 +2,12 @@
 
 import Loading from '@/app/loading';
 import PostCard from '@/app/(afterLogin)/_components/PostCard';
-import { IPostCommentProps } from '@/app/_types/post';
+import { IPostParams } from '@/app/_types/post';
 import useGetCommentList from '@/app/(afterLogin)/[userId]/post/[postId]/_hooks/useGetCommentList';
 import useGetSinglePost from '@/app/(afterLogin)/[userId]/post/[postId]/_hooks/useGetSinglePost';
 import useInfiniteScroll from '@/app/_hooks/useInfiniteScroll';
 
-const CommentList = ({ userId, postId }: IPostCommentProps) => {
+const CommentList = ({ userId, postId }: IPostParams) => {
   const { postData } = useGetSinglePost({ postId });
   const { comments, hasNextPage, fetchNextPage, isFetching } =
     useGetCommentList({ postId });
