@@ -28,9 +28,9 @@ const NavigationBar = () => {
 
   return (
     <nav className="fixed bottom-0 z-10 m-auto grid h-16 w-full max-w-screen-sm grid-cols-5 grid-rows-1 items-center bg-white/85 backdrop-blur-2xl ">
-      {navigationItems.map(({ icon: Icon, href }, index) => (
+      {navigationItems.map(({ icon: Icon, href }) => (
         <NavigationItem
-          key={index}
+          key={href}
           icon={Icon}
           href={href === '/users' ? `/users/${user?.displayName}` : href}
           pathname={pathname}
