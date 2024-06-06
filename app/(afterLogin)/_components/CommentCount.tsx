@@ -1,5 +1,3 @@
-'use client';
-
 import { FaRegComment } from 'react-icons/fa';
 
 interface CommentCountProps {

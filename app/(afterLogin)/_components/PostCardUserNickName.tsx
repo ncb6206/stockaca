@@ -1,6 +1,4 @@
-'use client';
-
-import React, { MouseEventHandler } from 'react';
+import { MouseEventHandler, memo } from 'react';
 import Link from 'next/link';
 
 interface IPostUserNickName {
@@ -27,4 +25,4 @@ const PostCardUserNickName = ({
   );
 };
 
-export default React.memo(PostCardUserNickName);
+export default memo(PostCardUserNickName);

@@ -1,9 +1,6 @@
 'use client';
 
-import Image from 'next/image';
-
 import Loader from '@/components/ui/loader';
-import { Avatar } from '@/components/ui/avatar';
 import { IFollowData } from '@/app/_types/follow';
 import useGetUserData from '@/app/(afterLogin)/users/[userId]/_hooks/useGetUserData';
 import useGetFollowData from '@/app/(afterLogin)/users/[userId]/_hooks/useGetFollowData';
@@ -12,6 +9,7 @@ import FollowButton from '@/app/(afterLogin)/users/[userId]/_components/FollowBu
 import MessageButton from '@/app/(afterLogin)/users/[userId]/_components/MessageButton';
 import FollowInfo from '@/app/(afterLogin)/users/[userId]/_components/FollowInfo';
 import { IUserId } from '@/app/_types/user';
+import UserProfileImage from '@/app/(afterLogin)/_components/UserProfileImage';
 
 const UserProfile = ({ userId }: IUserId) => {
   const {
@@ -22,6 +20,8 @@ const UserProfile = ({ userId }: IUserId) => {
   const { data: followData, isLoading: followLoading } = useGetFollowData({
     userId,
   });
+
+  console.log('userPage rendered');
 
   if (userLoading || followLoading) {
     return <Loader />;
@@ -38,18 +38,13 @@ const UserProfile = ({ userId }: IUserId) => {
           <p className="text-xl font-bold">{userData?.nickname}</p>
           <p>{userData?.email}</p>
         </div>
-        <Avatar className="h-16 w-16">
-          {userData?.profileImage && (
-            <Image
-              src={userData?.profileImage}
-              alt="프로필 사진"
-              width={200}
-              height={200}
-              placeholder="blur"
-              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg=="
-            />
-          )}
-        </Avatar>
+        <UserProfileImage
+          className="h-16 w-16"
+          src={userData?.profileImage}
+          alt="프로필 사진"
+          width={200}
+          height={200}
+        />
       </div>
       <p>{userData?.bio}</p>
       <div className="mt-2 flex items-center">

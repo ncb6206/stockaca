@@ -8,11 +8,11 @@ import useGetUserData from '@/app/(afterLogin)/users/[userId]/_hooks/useGetUserD
 import LikeCount from '@/app/(afterLogin)/_components/LikeCount';
 import CommentCount from '@/app/(afterLogin)/_components/CommentCount';
 import PostCardSetting from '@/app/(afterLogin)/_components/PostCardSetting';
-import PostCardUserImage from '@/app/(afterLogin)/_components/PostCardUserImage';
 import PostCardUserNickName from '@/app/(afterLogin)/_components/PostCardUserNickName';
 import PostCardCreatedAt from '@/app/(afterLogin)/_components/PostCardCreatedAt';
 import PostCardContent from '@/app/(afterLogin)/_components/PostCardContent';
 import PostCardImages from '@/app/(afterLogin)/_components/PostCardImages';
+import UserProfileImage from '@/app/(afterLogin)/_components/UserProfileImage';
 
 const PostCard = ({ postData, parentPostUserId }: IPostCard) => {
   const router = useRouter();
@@ -27,7 +27,13 @@ const PostCard = ({ postData, parentPostUserId }: IPostCard) => {
   return (
     <div className="relative w-full cursor-pointer overflow-hidden px-3 pb-2 pt-3">
       <div className="flex flex-row" onClick={goPost}>
-        <PostCardUserImage profileImage={userData?.profileImage} />
+        <UserProfileImage
+          className="mr-2"
+          src={userData?.profileImage}
+          alt="프로필 사진"
+          width={100}
+          height={100}
+        />
         <div className="flex w-full flex-col">
           <div className="flex flex-row gap-2">
             <PostCardUserNickName

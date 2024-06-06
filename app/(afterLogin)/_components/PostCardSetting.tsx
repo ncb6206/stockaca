@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import { memo } from 'react';
 import { BsThreeDots } from 'react-icons/bs';
 
 import {
@@ -57,4 +57,4 @@ const PostCardSetting = ({
   );
 };
 
-export default React.memo(PostCardSetting);
+export default memo(PostCardSetting);
