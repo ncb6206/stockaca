@@ -1,28 +1,21 @@
 'use client';
 
-import Image from 'next/image';
-
 import useGetUserData from '@/app/(afterLogin)/users/[userId]/_hooks/useGetUserData';
 import { IUserId } from '@/app/_types/user';
-import { Avatar } from '@/components/ui/avatar';
+import UserProfileImage from '@/app/(afterLogin)/_components/UserProfileImage';
 
 const UserInfo = ({ userId }: IUserId) => {
   const { data: userData } = useGetUserData({ userId });
 
   return (
     <div className="mb-2 flex w-full flex-col items-center gap-2 border-b py-2">
-      <Avatar className="h-16 w-16">
-        {userData?.profileImage && (
-          <Image
-            src={userData?.profileImage}
-            alt="프로필 사진"
-            width={300}
-            height={300}
-            placeholder="blur"
-            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg=="
-          />
-        )}
-      </Avatar>
+      <UserProfileImage
+        className="h-16 w-16"
+        src={userData?.profileImage}
+        alt="프로필 사진"
+        width={300}
+        height={300}
+      />
       <p className="text-xl font-bold">{userData?.nickname}</p>
       <p>{userData?.email}</p>
     </div>
