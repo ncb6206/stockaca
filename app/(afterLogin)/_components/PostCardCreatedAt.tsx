@@ -1,6 +1,4 @@
-'use client';
-
-import React from 'react';
+import { memo } from 'react';
 
 import { formatDateTime } from '@/app/_utils/formatDateTime';
 
@@ -14,4 +12,4 @@ const PostCardCreatedAt = ({ createdAt }: IPostCreatedAt) => {
   );
 };
 
-export default React.memo(PostCardCreatedAt);
+export default memo(PostCardCreatedAt);
