@@ -3,22 +3,22 @@
 import { useRouter } from 'next/navigation';
 
 import { IPostCard } from '@/app/_types/post';
-import useOnAuth from '@/app/_hooks/common/useOnAuth';
-import useUserQuery from '@/app/_hooks/api/useUserQuery';
-import LikeCount from '@/app/_components/post/LikeCount';
-import CommentCount from '@/app/_components/post/CommentCount';
-import PostCardSetting from '@/app/_components/post/PostCardSetting';
-import PostCardUserNickName from '@/app/_components/post/PostCardUserNickName';
-import PostCardCreatedAt from '@/app/_components/post/PostCardCreatedAt';
-import PostCardContent from '@/app/_components/post/PostCardContent';
-import PostCardImages from '@/app/_components/post/PostCardImages';
-import UserProfileImage from '@/app/_components/common/UserProfileImage';
+import useOnAuth from '@/app/_hooks/useOnAuth';
+import useGetUserData from '@/app/(afterLogin)/users/[userId]/_hooks/useGetUserData';
+import LikeCount from '@/app/(afterLogin)/_components/LikeCount';
+import CommentCount from '@/app/(afterLogin)/_components/CommentCount';
+import PostCardSetting from '@/app/(afterLogin)/_components/PostCardSetting';
+import PostCardUserImage from '@/app/(afterLogin)/_components/PostCardUserImage';
+import PostCardUserNickName from '@/app/(afterLogin)/_components/PostCardUserNickName';
+import PostCardCreatedAt from '@/app/(afterLogin)/_components/PostCardCreatedAt';
+import PostCardContent from '@/app/(afterLogin)/_components/PostCardContent';
+import PostCardImages from '@/app/(afterLogin)/_components/PostCardImages';
 
 const PostCard = ({ postData, parentPostUserId }: IPostCard) => {
   const router = useRouter();
   const { user } = useOnAuth();
   const { postId, post } = postData;
-  const { data: userData } = useUserQuery({ userId: post?.hashedUserId });
+  const { data: userData } = useGetUserData({ userId: post?.hashedUserId });
 
   const goPost = () => {
     router.push(`/${post.hashedUserId}/post/${postId}`);
@@ -27,7 +27,7 @@ const PostCard = ({ postData, parentPostUserId }: IPostCard) => {
   return (
     <div className="relative w-full cursor-pointer overflow-hidden px-3 pb-2 pt-3">
       <div className="flex flex-row" onClick={goPost}>
-        <UserProfileImage className="mr-2" src={userData?.profileImage} alt="프로필 사진" width={100} height={100} />
+        <PostCardUserImage profileImage={userData?.profileImage} />
         <div className="flex w-full flex-col">
           <div className="flex flex-row gap-2">
             <PostCardUserNickName hashedUserId={post?.hashedUserId} nickname={userData?.nickname} />

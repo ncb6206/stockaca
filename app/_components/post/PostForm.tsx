@@ -4,11 +4,11 @@ import Image from 'next/image';
 import TextareaAutosize from 'react-textarea-autosize';
 import { AiOutlinePicture } from 'react-icons/ai';
 
-import SubmitButton from '@/app/_components/common/SubmitButton';
-import usePostForm from '@/app/_hooks/post/usePostForm';
+import { Avatar } from '@/components/ui/avatar';
+import SubmitButton from '@/components/ui/SubmitButton';
+import usePostForm from '@/app/(afterLogin)/post/_hooks/usePostForm';
 import { usePostStore } from '@/app/_store/usePost';
-import UserProfileImage from '@/app/_components/common/UserProfileImage';
-import useOnAuth from '@/app/_hooks/common/useOnAuth';
+import useOnAuth from '@/app/_hooks/useOnAuth';
 
 const PostForm = () => {
   const { handleSubmit, onSubmit, register, errors, previewImage, isSubmitting } = usePostForm();
@@ -23,7 +23,18 @@ const PostForm = () => {
       >
         {mode === 'comment' && <p className="font-bold">답글 작성</p>}
         <div className="flex flex-row gap-4 p-6">
-          <UserProfileImage className="h-16 w-16" src={user?.photoURL} alt="프로필 사진" width={300} height={300} />
+          <Avatar className="h-16 w-16">
+            {user?.photoURL && (
+              <Image
+                src={user?.photoURL}
+                alt="프로필 사진"
+                width={300}
+                height={300}
+                placeholder="blur"
+                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg=="
+              />
+            )}
+          </Avatar>
           <div className="flex w-full flex-col gap-4">
             <p className="font-semibold">{user?.email}</p>
             <TextareaAutosize
