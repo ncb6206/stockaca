@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
-import Tab from '@/app/(afterLogin)/home/_components/Tab';
-import TabDecider from '@/app/(afterLogin)/home/_components/TabDecider';
+import Tab from '@/app/_components/common/Tab';
+import TabDecider from '@/app/_components/common/TabDecider';
 
 export const metadata: Metadata = {
   title: '홈 / Stockaca',

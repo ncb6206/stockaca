@@ -1,4 +1,4 @@
-import PostForm from '@/app/(afterLogin)/post/_components/PostForm';
+import PostForm from '@/app/_components/post/PostForm';
 
 const PostPage = () => {
   return <PostForm />;
