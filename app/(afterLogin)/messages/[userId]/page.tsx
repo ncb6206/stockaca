@@ -1,7 +1,7 @@
 import { IUserId } from '@/app/_types/user';
-import UserInfo from '@/app/(afterLogin)/messages/[userId]/_components/UserInfo';
-import MessageList from '@/app/(afterLogin)/messages/[userId]/_components/MessageList';
-import MessageForm from '@/app/(afterLogin)/messages/[userId]/_components/MessageForm';
+import UserInfo from '@/app/_components/common/UserInfo';
+import MessageList from '@/app/_components/message/MessageList';
+import MessageForm from '@/app/_components/message/MessageForm';
 
 interface MessageUserPageProps {
   params: IUserId;

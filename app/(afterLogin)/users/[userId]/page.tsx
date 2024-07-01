@@ -1,12 +1,8 @@
-import {
-  HydrationBoundary,
-  QueryClient,
-  dehydrate,
-} from '@tanstack/react-query';
+import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
 
 import { IUserId } from '@/app/_types/user';
-import UserProfile from '@/app/(afterLogin)/users/[userId]/_components/UserProfile';
-import { getUser } from '@/app/(afterLogin)/users/[userId]/_services/getUser';
+import UserProfile from '@/app/_components/common/UserProfile';
+import { getUser } from '@/app/_api/users/getUser';
 
 interface UserPageProps {
   params: IUserId;

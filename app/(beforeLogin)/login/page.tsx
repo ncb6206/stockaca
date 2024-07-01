@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { MdOutlineCancel } from 'react-icons/md';
 
-import LoginForm from '@/app/(beforeLogin)/login/_components/LoginForm';
+import LoginForm from '@/app/_components/common/LoginForm';
 
 const LoginPage = () => {
   return (

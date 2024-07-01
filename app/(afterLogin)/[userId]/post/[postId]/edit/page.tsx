@@ -1,5 +1,5 @@
 import { IPostParams } from '@/app/_types/post';
-import EditForm from '@/app/(afterLogin)/[userId]/post/[postId]/edit/_components/EditForm';
+import EditForm from '@/app/_components/common/EditForm';
 
 interface EditPageProps {
   params: IPostParams;

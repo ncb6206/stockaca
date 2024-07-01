@@ -1,4 +1,4 @@
-import MessageRoomList from '@/app/(afterLogin)/messages/_components/MessageRoomList';
+import MessageRoomList from '@/app/_components/message/MessageRoomList';
 
 const MessagePage = () => {
   return (

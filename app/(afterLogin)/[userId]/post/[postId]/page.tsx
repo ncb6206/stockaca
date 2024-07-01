@@ -1,14 +1,10 @@
-import {
-  HydrationBoundary,
-  QueryClient,
-  dehydrate,
-} from '@tanstack/react-query';
+import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
 
 import { IPostParams } from '@/app/_types/post';
-import SinglePost from '@/app/(afterLogin)/[userId]/post/[postId]/_components/SinglePost';
-import CommentList from '@/app/(afterLogin)/[userId]/post/[postId]/_components/CommentList';
-import WriteComment from '@/app/(afterLogin)/[userId]/post/[postId]/_components/WriteComment';
-import { getPost } from '@/app/(afterLogin)/[userId]/post/[postId]/_services/getPost';
+import SinglePost from '@/app/_components/post/SinglePost';
+import CommentList from '@/app/_components/post/CommentList';
+import WriteComment from '@/app/_components/post/WriteComment';
+import { getPost } from '@/app/_api/post/getPost';
 
 interface PostPageProps {
   params: IPostParams;
