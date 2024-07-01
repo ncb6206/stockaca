@@ -5,12 +5,12 @@ import { useRouter } from 'next/navigation';
 import TextareaAutosize from 'react-textarea-autosize';
 import { AiOutlinePicture } from 'react-icons/ai';
 
-import { Avatar } from '@/components/ui/avatar';
-import SubmitButton from '@/components/ui/SubmitButton';
-import useEditForm from '@/app/(afterLogin)/[userId]/post/[postId]/edit/_hooks/useEditForm';
-import useOnAuth from '@/app/_hooks/useOnAuth';
+import SubmitButton from '@/app/_components/common/SubmitButton';
+import useEditForm from '@/app/_hooks/post/useEditForm';
+import useOnAuth from '@/app/_hooks/common/useOnAuth';
 import { usePostStore } from '@/app/_store/usePost';
 import { IPostParams } from '@/app/_types/post';
+import UserProfileImage from '@/app/_components/common/UserProfileImage';
 
 const EditForm = ({ userId, postId }: IPostParams) => {
   const router = useRouter();
@@ -27,18 +27,7 @@ const EditForm = ({ userId, postId }: IPostParams) => {
       <form onSubmit={handleSubmit(onSubmit)} className="relative w-full space-y-6 overflow-x-auto">
         {mode === 'comment' && <p className="font-bold">답글 수정</p>}
         <div className="flex flex-row gap-4 p-4">
-          <Avatar className="h-16 w-16">
-            {user?.photoURL && (
-              <Image
-                src={user?.photoURL}
-                alt="프로필 사진"
-                width={300}
-                height={300}
-                placeholder="blur"
-                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg=="
-              />
-            )}
-          </Avatar>
+          <UserProfileImage className="h-16 w-16" src={user?.photoURL} alt="프로필 사진" width={300} height={300} />
           <div className="flex w-full flex-col gap-4">
             <p className="font-semibold">{user?.email}</p>
             <TextareaAutosize
