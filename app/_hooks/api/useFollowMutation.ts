@@ -1,29 +1,24 @@
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { Dispatch, SetStateAction } from 'react';
 import toast from 'react-hot-toast';
-import { User } from 'firebase/auth';
 
 import { postFollow } from '@/app/_api/users/postFollow';
 
 interface IUseFollow {
   userId: string;
-  user: User | null;
+  displayName: string;
   setIsFollow: Dispatch<SetStateAction<boolean>>;
 }
 
-const useFollowMutation = ({ userId, user, setIsFollow }: IUseFollow) => {
+const useFollowMutation = ({ userId, displayName, setIsFollow }: IUseFollow) => {
   const queryClient = useQueryClient();
 
   const onFollow = useMutation({
-    mutationFn: () =>
-      postFollow({
-        currentUserId: user?.displayName ?? '',
-        targetUserId: userId,
-      }),
+    mutationFn: postFollow,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['follow', userId] });
       queryClient.invalidateQueries({
-        queryKey: ['follow', user?.displayName],
+        queryKey: ['follow', displayName],
       });
       setIsFollow(true);
       toast.success('팔로우 완료');
