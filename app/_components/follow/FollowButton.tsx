@@ -20,20 +20,26 @@ const FollowButton = ({ userId, followData }: IFollowProps) => {
   });
   const { onFollow } = useFollowMutation({
     userId,
-    user,
+    displayName: user?.displayName as string,
     setIsFollow,
   });
   const { onUnFollow } = useUnFollowMutation({
     userId,
-    user,
+    displayName: user?.displayName as string,
     setIsFollow,
   });
 
   const handleToggleFollow = () => {
     if (isFollow) {
-      onUnFollow.mutate();
+      onUnFollow.mutate({
+        currentUserId: user?.displayName ?? '',
+        targetUserId: userId,
+      });
     } else {
-      onFollow.mutate();
+      onFollow.mutate({
+        currentUserId: user?.displayName ?? '',
+        targetUserId: userId,
+      });
     }
   };
 

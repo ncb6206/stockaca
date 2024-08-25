@@ -3,18 +3,16 @@ import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 
 import { updatePost } from '@/app/_api/post/updatePost';
-import useOnAuth from '@/app/_hooks/common/useOnAuth';
 import { usePostStore } from '@/app/_store/usePost';
-import { IPostId, IPostInputs } from '@/app/_types/post';
+import { IPostId } from '@/app/_types/post';
 
-const useEditPostMutation = ({ postId }: IPostId) => {
-  const { user } = useOnAuth();
+const usePostMutation = ({ postId }: IPostId) => {
   const { reset, parentPostId } = usePostStore();
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const updateFeed = useMutation({
-    mutationFn: (data: IPostInputs) => updatePost({ user, data, postId }),
+  const postMutation = useMutation({
+    mutationFn: updatePost,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['posts'] });
       queryClient.invalidateQueries({ queryKey: ['post', postId] });
@@ -33,7 +31,7 @@ const useEditPostMutation = ({ postId }: IPostId) => {
     },
   });
 
-  return { updateFeed };
+  return { postMutation };
 };
 
-export default useEditPostMutation;
+export default usePostMutation;

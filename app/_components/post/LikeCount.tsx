@@ -4,7 +4,7 @@ import { IoHeartOutline, IoHeart } from 'react-icons/io5';
 
 import useOnAuth from '@/app/_hooks/common/useOnAuth';
 import { IPostListData } from '@/app/_types/post';
-import useToggleLike from '@/app/_hooks/api/useToggleLike';
+import useToggleLike from '@/app/_hooks/post/useToggleLike';
 
 const LikeCount = ({ postId, post }: IPostListData) => {
   const { user } = useOnAuth();

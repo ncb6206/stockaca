@@ -9,6 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import SubmitButton from '@/app/_components/common/SubmitButton';
 import { Avatar } from '@/components/ui/avatar';
 import useSignUpForm from '@/app/_hooks/signup/useSignUpForm';
+import FormError from '@/app/_components/common/FormError';
 
 const SignUpForm = () => {
   const { handleSubmit, onSubmit, register, errors, previewImage, isSubmitting, password } = useSignUpForm();
@@ -26,7 +27,7 @@ const SignUpForm = () => {
             name="name"
             className="border-0 bg-[#f5f5f5]"
           />
-          {errors.name && <p className="mt-2 text-red-600">{errors.name?.message}</p>}
+          <FormError error={errors.name} />
         </div>
 
         <div>
@@ -40,7 +41,7 @@ const SignUpForm = () => {
             name="nickname"
             className="border-0 bg-[#f5f5f5]"
           />
-          {errors.nickname && <p className="mt-2 text-red-600">{errors.nickname?.message}</p>}
+          <FormError error={errors.nickname} />
         </div>
 
         <div>
@@ -54,7 +55,7 @@ const SignUpForm = () => {
             name="email"
             className="border-0 bg-[#f5f5f5]"
           />
-          {errors.email && <p className="mt-2 text-red-600">{errors.email?.message}</p>}
+          <FormError error={errors.email} />
         </div>
 
         <div>
@@ -73,7 +74,7 @@ const SignUpForm = () => {
             name="password"
             className="border-0 bg-[#f5f5f5]"
           />
-          {errors.password && <p className="mt-2 text-red-600">{errors.password?.message}</p>}
+          <FormError error={errors.password} />
         </div>
 
         <div>
@@ -88,7 +89,7 @@ const SignUpForm = () => {
             name="confirmPassword"
             className="border-0 bg-[#f5f5f5]"
           />
-          {errors.confirmPassword && <p className="mt-2 text-red-600">{errors.confirmPassword?.message}</p>}
+          <FormError error={errors.confirmPassword} />
         </div>
 
         <div className="grid w-full max-w-screen-sm items-center">
@@ -116,7 +117,7 @@ const SignUpForm = () => {
               {!previewImage && <Skeleton className="h-full w-full" />}
             </Avatar>
           </label>
-          {errors.profileImage && <p className="mt-2 text-red-600">{errors.profileImage?.message}</p>}
+          <FormError error={errors.profileImage} />
         </div>
 
         <div>
@@ -127,7 +128,7 @@ const SignUpForm = () => {
             name="bio"
             className="border-0 bg-[#f5f5f5]"
           />
-          {errors.bio && <p className="mt-2 text-red-600">{errors.bio?.message}</p>}
+          <FormError error={errors.bio} />
         </div>
 
         <div className="flex justify-end">
