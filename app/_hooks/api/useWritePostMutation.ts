@@ -4,17 +4,14 @@ import toast from 'react-hot-toast';
 
 import { postPost } from '@/app/_api/post/postPost';
 import { usePostStore } from '@/app/_store/usePost';
-import { IPostInputs } from '@/app/_types/post';
-import useOnAuth from '@/app/_hooks/common/useOnAuth';
 
 const useWritePostMutation = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
-  const { user } = useOnAuth();
   const { parentPostId, reset } = usePostStore();
 
   const writeFeed = useMutation({
-    mutationFn: (data: IPostInputs) => postPost({ user, data, parentPostId }),
+    mutationFn: postPost,
     onSuccess: () => {
       if (parentPostId) {
         queryClient.invalidateQueries({

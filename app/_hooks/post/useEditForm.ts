@@ -1,12 +1,14 @@
 import { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
+import useOnAuth from '@/app/_hooks/common/useOnAuth';
 import { usePreviewImage } from '@/app/_hooks/common/usePreviewImage';
 import { IPostId, IPostInputs } from '@/app/_types/post';
 import useSinglePostQuery from '@/app/_hooks/api/useSinglePostQuery';
-import useEditPostMutation from '@/app/_hooks/api/useEditPostMutation';
+import usePostMutation from '@/app/_hooks/api/usePostMutation';
 
 const useEditForm = ({ postId }: IPostId) => {
+  const { user } = useOnAuth();
   const { postData: initialPost } = useSinglePostQuery({ postId });
   const {
     register,
@@ -17,7 +19,7 @@ const useEditForm = ({ postId }: IPostId) => {
   } = useForm<IPostInputs>({ mode: 'onSubmit' });
   const watchImage = watch('photoUrl');
   const { previewImage } = usePreviewImage({ watchImage });
-  const { updateFeed } = useEditPostMutation({ postId });
+  const { postMutation } = usePostMutation({ postId });
 
   useEffect(() => {
     if (initialPost.post) {
@@ -27,7 +29,7 @@ const useEditForm = ({ postId }: IPostId) => {
   }, [initialPost.post]);
 
   const onSubmit: SubmitHandler<IPostInputs> = async data => {
-    await updateFeed.mutateAsync(data);
+    await postMutation.mutateAsync({ user, data, postId });
   };
 
   return {
