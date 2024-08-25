@@ -3,6 +3,7 @@
 import { Input } from '@/components/ui/input';
 import SubmitButton from '@/app/_components/common/SubmitButton';
 import useLoginForm from '@/app/_hooks/login/useLoginForm';
+import FormError from '@/app/_components/common/FormError';
 
 const LoginForm = () => {
   const { handleSubmit, onSubmit, register, errors, isSubmitting } = useLoginForm();
@@ -22,7 +23,7 @@ const LoginForm = () => {
             name="email"
             className="border-0 bg-[#f5f5f5]"
           />
-          {errors.email && <p className="mt-2 text-red-600">{errors.email?.message}</p>}
+          <FormError error={errors.email} />
         </div>
 
         <div>
@@ -36,7 +37,7 @@ const LoginForm = () => {
             name="password"
             className="border-0 bg-[#f5f5f5]"
           />
-          {errors.password && <p className="mt-2 text-red-600">{errors.password?.message}</p>}
+          <FormError error={errors.password} />
         </div>
 
         <div className="flex justify-end">
